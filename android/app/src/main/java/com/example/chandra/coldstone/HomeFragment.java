@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
  */
 public class HomeFragment extends Fragment {
 
+    TextView weight,toatal,weightpergram;
+    CheckBillInterface checkBillInterface;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -24,6 +27,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public interface CheckBillInterface{
+        public void doCheckBill(String username);
+
     }
 
 

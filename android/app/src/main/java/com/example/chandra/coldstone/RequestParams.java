@@ -28,7 +28,7 @@ public class RequestParams {
         this.method = method;
     }
 
-    public void getUrl(String function){
+    public void setUrl(String function){
         StringBuilder sb = new StringBuilder();
         sb.append(ColdStoneConstants.baseurl);
         sb.append("/");

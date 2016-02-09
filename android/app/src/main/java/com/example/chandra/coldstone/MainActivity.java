@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.LoginInterface,Signup.SignupInterface{
+public class MainActivity extends AppCompatActivity implements LoginFragment.LoginInterface,Signup.SignupInterface,HomeFragment.CheckBillInterface{
 
 
     ProgressDialog dialog;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
         RequestParams requestParams = new RequestParams(ColdStoneConstants.baseurl,"POST");
         this.function="login";
-        requestParams.getUrl(this.function);
+        requestParams.setUrl(this.function);
         requestParams.addParams("username", username);
         requestParams.addParams("password",password);
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     public void doSingup(String username, String password) {
         RequestParams requestParams = new RequestParams(ColdStoneConstants.baseurl,"POST");
         this.function="signup";
-        requestParams.getUrl(this.function);
+        requestParams.setUrl(this.function);
         requestParams.addParams("username", username);
         requestParams.addParams("password",password);
 
@@ -64,7 +64,13 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 .replace(R.id.container, new HomeFragment(), "home").commit();
     }
 
-
+    @Override
+    public void doCheckBill(String username) {
+        RequestParams requestParams = new RequestParams(ColdStoneConstants.baseurl,"POST");
+        this.function ="getBill";
+        requestParams.setUrl(this.function);
+        requestParams.addParams("username", username);
+    }
 
 
     private class UserDb extends AsyncTask<RequestParams,Void,Integer>{
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 HttpURLConnection con = params[0].getConnection();
                 reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 if ((line = reader.readLine()) != null) {
+                    Log.d("Demo",line);
                     status = Integer.parseInt(line);
                 }
             } catch (IOException e) {
