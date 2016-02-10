@@ -14,7 +14,7 @@ import database.DbConnection;
 public class UserDao {
 	Logger logger = Logger.getLogger("UserDao");
 
-	public boolean doLogin(String username, String password) {
+	public boolean doLogin(String username, String password,String device,String session) {
 		boolean result = false;
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
@@ -30,6 +30,7 @@ public class UserDao {
 			}
 			if (count == 1) {
 				result = true;
+				toggleSession(device, session);
 			}
 			
 			ps.close();
@@ -39,7 +40,7 @@ public class UserDao {
 		return result;
 	}
 	
-	public int doSingup(String username,String password){
+	public int doSingup(String username,String password,String device){
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int status=0;
@@ -51,6 +52,7 @@ public class UserDao {
 			
 			 status= ps.executeUpdate(sqlStatement);
 			ps.close();
+			createSession(username, device);
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE,e.toString());
 		}
@@ -153,8 +155,7 @@ public class UserDao {
 		return "1";
 	}
 	
-	public int logout(String device){
-		String session="N";
+	public int toggleSession(String device,String session){
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
@@ -169,5 +170,21 @@ public class UserDao {
 		return statusUpdate;
 	}
 	
+	
+	public int createSession(String userid,String device){
+		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		Statement ps = null;
+		int statusUpdate=0;
+		try {
+			ps = dbConnection.getConnection();
+			String sqlStatement= "insert into session (userid,device,session) values ('"+userid+"','"+device+"',Y)";
+			statusUpdate=ps.executeUpdate(sqlStatement);
+			ps.close();
+		} catch (SQLException e) {
+			logger.log(Level.SEVERE,e.toString());
+		}
+		return statusUpdate;
+		
+	}
 	
 }

@@ -19,9 +19,9 @@ public class UserApi {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	public int doLogin(@FormParam("username") String username,
-			@FormParam("password") String password) {
+			@FormParam("password") String password,@FormParam("device") String device) {
 		UserService userService = new UserService();
-		 if(userService.doLogin(username, password)){
+		 if(userService.doLogin(username, password,device,"Y")){
 			 return 0;
 		 }else{
 			 return 1;
@@ -32,9 +32,9 @@ public class UserApi {
 	@Path("/signup")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public int doSignup(@FormParam("username") String username,@FormParam("password") String password){
+	public int doSignup(@FormParam("username") String username,@FormParam("password") String password,@FormParam("device") String device){
 		UserService userService = new UserService();
-		return userService.doSingup(username, password);
+		return userService.doSingup(username, password,device);
 	}
 	
 	@Path("/session")
@@ -75,8 +75,9 @@ public class UserApi {
 	@Produces(MediaType.TEXT_PLAIN)
 	public int logout(@FormParam("device") String device){
 		UserService userService = new UserService();
-		return userService.logout(device);
+		return userService.toggleSession(device, "N");
 	}
+	
 	
 	
 }
