@@ -44,9 +44,10 @@ public class PriceCtr extends HttpServlet {
 		}
 		}else if(request.getServletPath().equals("/user")){
 			String userid = request.getParameter("userid");
+			String cost = request.getParameter("cost");
+			float price = Float.valueOf(cost);
 			int id = Integer.valueOf(request.getParameter("id"));
-			service.updateStatus("P",id);
-			service.updateUserid(userid, id);
+			service.updateProcessedStatus(userid, "P", price, id);
 			request.getRequestDispatcher("index.jsp").forward(request,response);
 		}
 	}

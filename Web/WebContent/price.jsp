@@ -209,6 +209,7 @@ nav .right{
                 <%String cost = (String)request.getAttribute("Cost"); %>
                 <%String id = (String)request.getAttribute("Id"); %>
                 <input type="hidden" name="id" value="<%=id%>" />
+                <input type="hidden" name="cost" value"<%=cost%>" />
                     <p>Weight of the Icecream: <c:out value ="<%=weight%>"/> grams</p>
                     <p>Cost per gram: 10 cents</p>
                     <p>Cost of the Icecream: <c:out value ="<%=cost%>"/></p>

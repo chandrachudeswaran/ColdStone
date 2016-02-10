@@ -55,27 +55,14 @@ public class WeightDao {
 		return weight;
 	}
 	
-	public void updateStatus(String status,int id){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
-		Statement ps = null;
-		
-		try {
-			ps = dbConnection.getConnection();
-			String sqlStatement= "update billinfo set billstatus='"+status+"' where id='"+id+"'";
-			ps.executeUpdate(sqlStatement);
-			ps.close();
-		} catch (SQLException e) {
-			logger.log(Level.SEVERE,e.toString());
-		}
-	}
+
 	
-	
-	public void updateUserid(String userid,int id){
+	public void doProcessed(String username,String status,float price,int id){
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "update billinfo set userid='"+userid+"' where id='"+id+"'";
+			String sqlStatement= "update billinfo set userid='"+username+"',billstatus='"+status+"',price='"+price+"' where id='"+id+"'";
 			ps.executeUpdate(sqlStatement);
 			ps.close();
 		} catch (SQLException e) {

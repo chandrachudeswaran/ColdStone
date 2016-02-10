@@ -37,11 +37,7 @@ public class WeightService {
 		
 	}
 	
-	public void updateStatus(String status,int id){
-		weightDao.updateStatus(status, id);
-	}
-	
-	public void updateUserid(String userid,int id){
-		weightDao.updateUserid(userid, id);
+	public void updateProcessedStatus(String username,String status,float price,int id){
+		weightDao.doProcessed(username, status, price, id);
 	}
 }

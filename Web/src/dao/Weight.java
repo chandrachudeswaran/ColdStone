@@ -1,10 +1,14 @@
 package dao;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Weight {
 	private int id;
+	private float price;
 	private String weight;
 	private String status;
-	private String userid;
+	private String userid="";
 	private String timeinserted;
 	private String dateinserted;
 	public int getId() {
@@ -12,6 +16,12 @@ public class Weight {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
 	}
 	public String getWeight() {
 		return weight;
