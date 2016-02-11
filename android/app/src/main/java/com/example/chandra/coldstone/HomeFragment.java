@@ -94,14 +94,14 @@ public class HomeFragment extends Fragment {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkBillInterface.checkResponse(true);
+                checkBillInterface.doUserActionOnBill(true);
             }
         });
 
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkBillInterface.checkResponse(false);
+                checkBillInterface.doUserActionOnBill(false);
             }
         });
         return view;
@@ -115,8 +115,8 @@ public class HomeFragment extends Fragment {
 
 
     public interface CheckBillInterface{
-        public void doCheckBill();
-        public void checkResponse(boolean check);
+        public void getBillForUser();
+        public void doUserActionOnBill(boolean check);
         public void showHistoryFragment();
         public void doLogout();
 
@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        checkBillInterface.doCheckBill();
+        checkBillInterface.getBillForUser();
 
 
     }

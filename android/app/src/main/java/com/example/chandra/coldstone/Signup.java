@@ -29,7 +29,7 @@ public class Signup extends Fragment {
     }
 
     public interface SignupInterface{
-        public void doSingup(String username,String password);
+        public void doSignup(String username,String password);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Signup extends Fragment {
             public void onClick(View v) {
 
                 if(validateInput()){
-                        signupInterface.doSingup(username.getText().toString(),password.getText().toString());
+                        signupInterface.doSignup(username.getText().toString(),password.getText().toString());
                 }
             }
         });

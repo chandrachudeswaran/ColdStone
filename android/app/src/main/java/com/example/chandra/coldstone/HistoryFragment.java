@@ -30,7 +30,7 @@ public class HistoryFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_history, container, false);
         listview =(ListView)view.findViewById(R.id.listview);
-        historyInterface.getHistoryList();
+        historyInterface.getHistoryBillList();
         return view;
     }
 
@@ -46,7 +46,7 @@ public class HistoryFragment extends Fragment {
     }
 
     public interface HistoryInterface{
-        public void getHistoryList();
+        public void getHistoryBillList();
     }
 
     public void displayHistory(ArrayList<Bill> list){
