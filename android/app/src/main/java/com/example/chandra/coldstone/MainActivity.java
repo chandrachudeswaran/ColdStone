@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,12 +126,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onBackPressed() {
-
-        if(session){
-            finish();
+        if(getFragmentManager().getBackStackEntryCount()>1){
+            getFragmentManager().popBackStack();
         }
-        else if(getFragmentManager().getBackStackEntryCount()>0){
-            session=false;
+
+        else if(getFragmentManager().getBackStackEntryCount()>0 && !session){
             getFragmentManager().popBackStack();
         }else{
             finish();
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 HttpURLConnection con = params[0].getConnection();
                 reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 if ((line = reader.readLine()) != null) {
+
                     status = Integer.parseInt(line);
                 }
             } catch (IOException e) {
@@ -211,9 +212,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         @Override
         protected void onPostExecute(Integer bill) {
             dialog.dismiss();
-
             if(MainActivity.this.function.equals("logout")){
                     if(bill==1){
+                        session=false;
                         onBackPressed();
                     }
             }else {
@@ -387,6 +388,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         this.function="logout";
         params.setUrl(this.function);
         params.addParams("device", android_id);
+        params.addParams("username",username);
         new StatusUpdate().execute(params);
     }
 }
