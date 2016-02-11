@@ -80,7 +80,7 @@
 }
 
 nav{
-    background-color: #535151;
+    background-color: #3E2723;
     margin:0;
     overflow: hidden;
 }
@@ -91,7 +91,14 @@ nav ul{
 
 }
 
+.billText{
+  font-family:"Arial";
+}
 
+.billTextTotal{
+  font-weight:bold;
+  font-family:"Arial";
+}
 
 nav#header_menu ul li a {
 
@@ -104,6 +111,11 @@ nav#header_menu ul li a {
     text-decoration: none;
 }
 
+.container{
+    margin-bottom : 50px;
+    padding-bottom:50px;
+    
+}
 
 .copyright{
     position:fixed;
@@ -113,7 +125,7 @@ nav#header_menu ul li a {
     width: 100%;
 
     padding: 20px 20px;
-    background:#535151;
+    background:#3E2723;
     text-align:center;
     color:white;
 }
@@ -121,7 +133,7 @@ nav#header_menu ul li a {
 
 nav#menu {
     color: black;
-    background-color: #CCFFCC;
+    background-color: #3E2723;
     font-weight: bold;
     float:left;
     display: block;
@@ -138,7 +150,7 @@ nav#menu {
 body {
     min-height: 100%;
     margin:0 auto;
-
+   
     clear: both;
 }
 
@@ -164,6 +176,7 @@ nav .left{
 nav .right{
     float:right;
     margin-right:2em;
+    font-family:"Courier New", Courier, monospace;
 
 }
 
@@ -178,9 +191,9 @@ nav .right{
 
                 <ul class="right">
                     
-                        <li><a href="userController?action=about">About Us</a></li>
-                        <li><a href="userController?action=how">How it Works</a></li>
-                        <li><a href="userController?action=login_page">Login</a></li>
+                         <li><a href="index.jsp">Home</a></li>
+                        <li><a href='${pageContext.request.contextPath}/price'>Billing</a></li>
+                      
                       
                     
                 </ul>
@@ -209,10 +222,10 @@ nav .right{
                 <%String cost = (String)request.getAttribute("Cost"); %>
                 <%String id = (String)request.getAttribute("Id"); %>
                 <input type="hidden" name="id" value="<%=id%>" />
-                <input type="hidden" name="cost" value"<%=cost%>" />
-                    <p>Weight of the Icecream: <c:out value ="<%=weight%>"/> grams</p>
-                    <p>Cost per gram: 10 cents</p>
-                    <p>Cost of the Icecream: <c:out value ="<%=cost%>"/></p>
+                <input type="hidden" name="price" value="<%=cost%>" />
+                    <p class="billText">Weight: <c:out value ="<%=weight%>"/> grams</p>
+                    <p class="billText">Price per gram: 10 cents</p>
+                    <p class="billTextTotal">Total: <c:out value ="<%=cost%>"/></p>
                     <p>Enter Userid: <input type="text" name="userid"/></p>
                    <p> <input type="submit" value="Submit" /> </p>
                    </form>
