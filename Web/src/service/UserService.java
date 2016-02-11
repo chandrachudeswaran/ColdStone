@@ -30,16 +30,16 @@ public class UserService {
 		return userDao.getHistory(username);
 	}
 
-	public int updateUserStatus(String status, String username) {
-		return userDao.updateUserStatus(status, username);
+	public int updateUserStatus(String status, String username,String id) {
+		return userDao.updateUserStatus(status, username,id);
 	}
 
 	public String checkSessionExists(String device) {
 		return userDao.checkSessionExists(device);
 	}
 
-	public int toggleSession(String device, String session) {
-		return userDao.toggleSession(device, session);
+	public int toggleSession(String device, String session,String username ) {
+		return userDao.toggleSession(device, session,username);
 	}
 
 	

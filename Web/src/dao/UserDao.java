@@ -30,7 +30,7 @@ public class UserDao {
 			}
 			if (count == 1) {
 				result = true;
-				toggleSession(device, session);
+				toggleSession(device, session,username);
 			}
 			
 			ps.close();
@@ -94,7 +94,7 @@ public class UserDao {
 		ResultSet rs = null;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement = "select * from billinfo where userid='"+username+"' and billstatus='"+accepted+"' or '"+canceled+"'";
+			String sqlStatement = "select * from billinfo where userid='"+username+"' and billstatus in ('"+accepted+"','"+canceled+"')";
 			rs = ps.executeQuery(sqlStatement);
 			
 			while(rs.next()){
@@ -114,13 +114,14 @@ public class UserDao {
 		return list;
 	}
 	
-	public int updateUserStatus(String status,String username){
+	public int updateUserStatus(String status,String username,String id){
+		int id_int = Integer.parseInt(id);
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "update billinfo set billstatus='"+status+"' where id = (select b.id from  (select * from billinfo) b where b.userid='"+username+"')";
+			String sqlStatement= "update billinfo set billstatus='"+status+"' where id = '"+id_int+"'";
 			statusUpdate=ps.executeUpdate(sqlStatement);
 			ps.close();
 		} catch (SQLException e) {
@@ -155,29 +156,31 @@ public class UserDao {
 		return "1";
 	}
 	
-	public int toggleSession(String device,String session){
+	public int toggleSession(String device,String session,String username){
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "update session set session='"+session+"' where deviceid = '"+device+"'";
+			String sqlStatement= "update session set session='"+session+"' where deviceid = '"+device+"' and userid='"+username+"'";
 			statusUpdate=ps.executeUpdate(sqlStatement);
 			ps.close();
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE,e.toString());
 		}
+		System.out.println(statusUpdate);
 		return statusUpdate;
 	}
 	
 	
 	public int createSession(String userid,String device){
+		String session="Y";
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "insert into session (userid,device,session) values ('"+userid+"','"+device+"',Y)";
+			String sqlStatement= "insert into session (userid,deviceid,session) values ('"+userid+"','"+device+"','"+session+"')";
 			statusUpdate=ps.executeUpdate(sqlStatement);
 			ps.close();
 		} catch (SQLException e) {

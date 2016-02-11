@@ -65,17 +65,17 @@ public class UserApi {
 	@Path("/statusupdate")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public int updateUserStatus(@FormParam("username") String username,@FormParam("status") String status){
+	public int updateUserStatus(@FormParam("username") String username,@FormParam("status") String status,@FormParam("id") String id){
 		UserService userService = new UserService();
-		return userService.updateUserStatus(status, username);
+		return userService.updateUserStatus(status, username,id);
 	}
 	
 	@Path("/logout")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public int logout(@FormParam("device") String device){
+	public int logout(@FormParam("device") String device,@FormParam("username") String username){
 		UserService userService = new UserService();
-		return userService.toggleSession(device, "N");
+		return userService.toggleSession(device, "N",username);
 	}
 	
 	
