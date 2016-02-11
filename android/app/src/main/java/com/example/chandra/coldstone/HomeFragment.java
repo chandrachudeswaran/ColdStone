@@ -4,6 +4,7 @@ package com.example.chandra.coldstone;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import org.w3c.dom.Text;
  */
 public class HomeFragment extends Fragment {
 
-    TextView weight;
+    TextView weight,noTrans;
     TextView total;
     TextView unitprice;
     ImageView image;
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment {
     LinearLayout layout;
     Button accept;
     Button reject;
+    LinearLayout buttonsLayout;
+    CardView cardView;
 
     CheckBillInterface checkBillInterface;
 
@@ -64,7 +67,7 @@ public class HomeFragment extends Fragment {
             checkBillInterface.showHistoryFragment();
         }
         else if(id==R.id.logout){
-
+                checkBillInterface.doLogout();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -74,6 +77,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
+        cardView = (CardView) view.findViewById(R.id.card_view);
         weight =(TextView) view.findViewById(R.id.weight);
         total = (TextView) view.findViewById(R.id.total);
         unitprice = (TextView ) view.findViewById(R.id.pricepergram);
@@ -84,6 +88,8 @@ public class HomeFragment extends Fragment {
         layout=(LinearLayout)view.findViewById(R.id.parentchild);
         accept = (Button)view.findViewById(R.id.accept);
         reject = (Button) view.findViewById(R.id.reject);
+        noTrans = (TextView) view.findViewById(R.id.noTrans);
+        buttonsLayout = (LinearLayout) view.findViewById(R.id.buttonsLayout);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,11 +144,11 @@ public class HomeFragment extends Fragment {
     public void displayBill(Bill bill) {
         if (bill != null) {
             weight.setText(bill.getWeight());
-            total.setText(Double.toString(bill.getPrice()));
+            total.setText("$" + Double.toString(bill.getPrice()));
             unitprice.setText("10 cents");
             Picasso.with(this.getContext()).load("https://www.coldstonecreamery.com/assets/img/products/signaturecreations/signaturecreations.jpg").into(image);
         }else{
-            weight.setVisibility(View.INVISIBLE);
+            /*weight.setVisibility(View.INVISIBLE);
             total.setVisibility(View.INVISIBLE);
             pricelabel.setVisibility(View.INVISIBLE);
             unitprice.setVisibility(View.INVISIBLE);
@@ -159,7 +165,12 @@ public class HomeFragment extends Fragment {
             view.setText("No Transactions found!");
             view.setTextSize(20);
             view.setGravity(Gravity.CENTER);
-            layout.addView(view);
+            layout.addView(view);*/
+
+            cardView.setVisibility(View.INVISIBLE);
+            buttonsLayout.setVisibility(View.INVISIBLE);
+            noTrans.setVisibility(View.VISIBLE);
+
         }
     }
 

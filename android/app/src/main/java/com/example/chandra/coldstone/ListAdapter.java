@@ -36,11 +36,19 @@ public class ListAdapter extends ArrayAdapter<Bill> {
         }
 
         TextView weight =(TextView)convertView.findViewById(R.id.weight);
-        weight.setText("Weight of the item: " +list.get(position).getWeight());
+        weight.setText("Weight: " +list.get(position).getWeight());
         TextView cost =(TextView)convertView.findViewById(R.id.cost);
-        cost.setText("Cost of the item: "+ list.get(position).getPrice()+"");
+        cost.setText("Price: "+ list.get(position).getPrice()+"");
         TextView date =(TextView)convertView.findViewById(R.id.date);
-        date.setText("Date Purchase: " +list.get(position).getDate());
+        date.setText("Purchase Date: " +list.get(position).getDate());
+        TextView status =(TextView)convertView.findViewById(R.id.status);
+
+        if(list.get(position).getStatus().equals("A")){
+            status.setText("Status: " + "Accepted");
+        }else{
+            status.setText("Status: " + "Cancelled");
+        }
+
 
         return convertView;
 

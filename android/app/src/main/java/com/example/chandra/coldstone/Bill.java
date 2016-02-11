@@ -10,6 +10,7 @@ public class Bill {
     double price;
     String time;
     String date;
+    int id;
 
     @Override
     public String toString() {
@@ -20,6 +21,14 @@ public class Bill {
                 ", time='" + time + '\'' +
                 ", date='" + date + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getWeight() {

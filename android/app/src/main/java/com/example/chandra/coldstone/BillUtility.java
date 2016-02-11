@@ -48,6 +48,7 @@ public class BillUtility {
             bill.setStatus(obj.getString("status"));
             bill.setWeight(obj.getString("weight"));
             bill.setTime(obj.getString("timeinserted"));
+            bill.setId(obj.getInt("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

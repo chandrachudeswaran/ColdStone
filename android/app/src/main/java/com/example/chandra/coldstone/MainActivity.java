@@ -1,17 +1,13 @@
 package com.example.chandra.coldstone;
 
-import android.app.Fragment;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,11 +25,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     HomeFragment homeFragment;
     String android_id;
     HistoryFragment historyFragment;
+    Toolbar mToolbar;
+    boolean session=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mToolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        setSupportActionBar(mToolbar);
 
         android_id = Settings.Secure.getString(getApplication().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         requestParams.setUrl(this.function);
         requestParams.addParams("username", username);
         requestParams.addParams("password", password);
+        requestParams.addParams("device",android_id);
 
         new UserDb().execute(requestParams);
 
@@ -115,12 +118,28 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         this.username = username;
         requestParams.addParams("username", username);
         requestParams.addParams("password", password);
+        requestParams.addParams("device",android_id);
 
         new UserDb().execute(requestParams);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if(session){
+            finish();
+        }
+        else if(getFragmentManager().getBackStackEntryCount()>0){
+            session=false;
+            getFragmentManager().popBackStack();
+        }else{
+            finish();
+        }
+    }
+
     public void showHome(String username) {
         this.username = username;
+        session=true;
         homeFragment = new HomeFragment();
         getFragmentManager().beginTransaction().addToBackStack("login")
                 .replace(R.id.container, homeFragment, "home").commit();
@@ -147,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         this.function = "statusupdate";
         requestParams.setUrl(this.function);
         requestParams.addParams("username", username);
+        requestParams.addParams("id",String.valueOf(billinfo.getId()));
         if (check) {
             requestParams.addParams("status", "A");
         } else {
@@ -193,7 +213,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
             dialog.dismiss();
 
             if(MainActivity.this.function.equals("logout")){
-                    
+                    if(bill==1){
+                        onBackPressed();
+                    }
             }else {
                 if (bill == 1) {
                     Toast.makeText(getApplicationContext(), "Thank you for purchase", Toast.LENGTH_LONG);
@@ -285,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
             if (function.equals("signup")) {
                 if (integer == 1) {
+                    session=true;
                     showHome(MainActivity.this.username);
                 } else {
                     Toast.makeText(getApplicationContext(), "Signup failed", Toast.LENGTH_SHORT).show();
@@ -292,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 }
             } else {
                 if (integer == 0) {
+                    session=true;
                     showHome(MainActivity.this.username);
                 } else {
                     Toast.makeText(getApplicationContext(), "Login parameters incorrect", Toast.LENGTH_SHORT).show();
