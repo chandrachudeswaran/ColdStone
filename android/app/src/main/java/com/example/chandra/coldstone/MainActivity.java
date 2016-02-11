@@ -80,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
         @Override
         protected void onPostExecute(String bill) {
+            Log.d("demo",bill);
             dialog.dismiss();
-            if (!bill.equals("1")) {
+            if (bill.equals("1")) {
                 showHome(bill);
             } else {
                 showLogin();
