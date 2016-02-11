@@ -131,6 +131,7 @@ public class UserDao {
 	}
 	
 	public String checkSessionExists(String device){
+		String status ="Y";
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
@@ -138,7 +139,7 @@ public class UserDao {
 		String userid="";
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "select * from session where deviceid='"+device+"'";
+			String sqlStatement= "select * from session where deviceid='"+device+"' and session='"+status+"'";
 			rs = ps.executeQuery(sqlStatement);
 			while(rs.next()){
 				 session = rs.getString("session");
