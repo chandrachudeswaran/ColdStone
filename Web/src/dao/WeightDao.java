@@ -38,6 +38,7 @@ public class WeightDao {
 		try {
 			ps = dbConnection.getConnection();
 			String sqlStatement = "select * from billinfo where billstatus='"+status+"' order by timeinserted asc limit 1";
+			System.out.println(sqlStatement);
 			rs=ps.executeQuery(sqlStatement);
 			
 			while(rs.next()){

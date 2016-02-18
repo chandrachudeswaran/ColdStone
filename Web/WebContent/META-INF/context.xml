@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/ResearchersExchange">
+    <Resource name="jdbc/coldstone" auth="Container" 
+              driverClassName="com.mysql.jdbc.Driver" 
+              url="jdbc:mysql://127.5.207.130:3306/coldstone" 
+              username="admin9BlkRZG" password="e6iIYbplZ5Mq" 
+              maxActive="100" maxIdle="30" maxWait="10000" 
+              logAbandoned="true" removeAbandoned="true" 
+              removeAbandonedTimeout="60" type="javax.sql.DataSource" />  
+</Context>
