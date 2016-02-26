@@ -25,32 +25,47 @@ public class PriceCtr extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		logger.log(Level.INFO,request.getServletPath());
+
+		logger.log(Level.INFO, request.getServletPath());
 		WeightService service = new WeightService();
-		if(request.getServletPath().equals("/price")){
-		
-		Weight weight = service.getLatestWeight();
-		String cost = service.getCost(weight.getWeight());
-		request.setAttribute("Cost", cost);
-		request.setAttribute("Weight", weight.getWeight());
-		request.setAttribute("Id", String.valueOf(weight.getId()));
+		if (request.getServletPath().equals("/price")) {
+			
+			String url = "price.jsp";
+			Weight weight = service.getLatestWeight();
+			String cost = service.getCost(weight.getWeight());
+			request.setAttribute("Cost", cost);
+			request.setAttribute("Weight", weight.getWeight());
+			request.setAttribute("Id", String.valueOf(weight.getId()));
+			if (cost == null) {
+				url = "/nobill";
+			}
+			forwardRequest(request, response, url);
+			
+		} else if (request.getServletPath().equals("/user")) {
+			
+			String userid = request.getParameter("userid");
+			String cost = request.getParameter("price");
+			cost = cost.replace("$", "");
+			cost = cost.replace("cents", "");
+			float price = Float.valueOf(cost.trim());
+			int id = Integer.valueOf(request.getParameter("id"));
+			service.updateProcessedStatus(userid, "P", price, id);
+			forwardRequest(request, response, "index.jsp");
+			
+		} else if (request.getServletPath().equals("/nobill")) {
+				request.setAttribute("billstatus", "none");
+				forwardRequest(request, response, "index.jsp");
+		}
+	}
+
+	public void forwardRequest(HttpServletRequest request,
+			HttpServletResponse response, String url) {
 		try {
-			request.getRequestDispatcher("price.jsp").forward(request,response);
+			request.getRequestDispatcher(url).forward(request, response);
 		} catch (ServletException e) {
 			logger.log(Level.SEVERE, e.toString());
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, e.toString());
-		}
-		}else if(request.getServletPath().equals("/user")){
-			String userid = request.getParameter("userid");
-			String cost = request.getParameter("price");
-			cost = cost.replace("$","");
-			cost=cost.replace("cents","");
-			float price = Float.valueOf(cost.trim());
-			int id = Integer.valueOf(request.getParameter("id"));
-			service.updateProcessedStatus(userid, "P", price, id);
-			request.getRequestDispatcher("index.jsp").forward(request,response);
 		}
 	}
 

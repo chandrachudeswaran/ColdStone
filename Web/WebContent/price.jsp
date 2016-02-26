@@ -8,7 +8,9 @@
 <title>ColdStone - Billing</title>
 <style>
 
-
+#erroruserid{
+color:red;
+}
 .row{
    margin:0 auto;
    width : 50%;
@@ -181,6 +183,19 @@ nav .right{
 }
 
 </style>
+
+<script type="text/javascript">
+function checkUserId() {
+	if(document.user.userid.value==""){
+		document.getElementById("erroruserid").innerHTML="Enter a valid Username";
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
+</script>
 </head>
 <body>
 <div id="header">
@@ -217,7 +232,7 @@ nav .right{
                 </div>
                 
                 <div class="card-content">
-                <form name="user" action="user">
+                <form name="user" action="user" onsubmit="return checkUserId()">
                 <%String weight = (String)request.getAttribute("Weight"); %>
                 <%String cost = (String)request.getAttribute("Cost"); %>
                 <%String id = (String)request.getAttribute("Id"); %>
@@ -227,6 +242,7 @@ nav .right{
                     <p class="billText">Price per gram: 10 cents</p>
                     <p class="billTextTotal">Total: <c:out value ="<%=cost%>"/></p>
                     <p>Enter Userid: <input type="text" name="userid"/></p>
+                    <p id="erroruserid"></p>
                    <p> <input type="submit" value="Submit" /> </p>
                    </form>
                 </div>

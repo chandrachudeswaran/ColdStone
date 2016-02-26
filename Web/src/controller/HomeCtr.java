@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import service.WeightService;
 
 public class HomeCtr extends HttpServlet {
@@ -22,24 +21,21 @@ public class HomeCtr extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		doPost(request, response);
 	}
-	
+
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
 
-		
+		logger.log(Level.INFO, request.getServletPath());
+
 		String weight = request.getParameter("weight");
-		logger.log(Level.INFO, "Weight entered is  "+ weight);
+		logger.log(Level.INFO, "Weight entered is  " + weight);
 		weight = weight.replace("\"", "").trim().toString();
 		WeightService service = new WeightService();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		service.insertWeightInitial(weight, dateFormat.format(cal.getTime()));
-	
-	}
-	
 
+	}
 }

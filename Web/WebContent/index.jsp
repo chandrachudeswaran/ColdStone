@@ -2,13 +2,19 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>ColdStone - Billing</title>
 <style>
 
-
+#preason{
+text-align: center;
+color: #ffab40;
+}
 .row{
    margin:0 auto;
    width : 50%;
@@ -202,7 +208,12 @@ nav .right{
 
 
 </div>
-        
+     <div id="reason">
+     <%String billstatus = (String)request.getAttribute("billstatus"); %>
+     <c:if test="${billstatus!=null}">
+     <p id="preason">No purchase requests at this moment.<p>
+     </c:if>
+     </div>   
 <section id="how">
     <h3>Project Description</h3>
 

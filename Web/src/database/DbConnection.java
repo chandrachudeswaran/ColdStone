@@ -13,9 +13,9 @@ public class DbConnection {
 			Connection con = null;
 
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = "jdbc:mysql://127.5.207.130:3306/coldstone";
-			String user = "admin9BlkRZG";
-			String pass = "e6iIYbplZ5Mq";
+			String url = "jdbc:mysql://127.0.0.1:3306/coldstone";
+			String user = "root";
+			String pass = "root";
 			con = DriverManager.getConnection(url, user, pass);
 			ps = con.createStatement();
 		} catch (InstantiationException e) {
