@@ -11,6 +11,10 @@
 #erroruserid{
 color:red;
 }
+
+#erroruserid1{
+color:red;
+}
 .row{
    margin:0 auto;
    width : 50%;
@@ -232,16 +236,25 @@ function checkUserId() {
                 </div>
                 
                 <div class="card-content">
-                <form name="user" action="user" onsubmit="return checkUserId()">
                 <%String weight = (String)request.getAttribute("Weight"); %>
                 <%String cost = (String)request.getAttribute("Cost"); %>
                 <%String id = (String)request.getAttribute("Id"); %>
+                <%String status = (String)request.getAttribute("status"); %>
+  				  
+  				  
+                <form name="user" action="user" onsubmit="return checkUserId()">
+                
+              
+                
                 <input type="hidden" name="id" value="<%=id%>" />
                 <input type="hidden" name="price" value="<%=cost%>" />
                     <p class="billText">Weight: <c:out value ="<%=weight%>"/> grams</p>
                     <p class="billText">Price per gram: 10 cents</p>
                     <p class="billTextTotal">Total: <c:out value ="<%=cost%>"/></p>
                     <p>Enter Userid: <input type="text" name="userid"/></p>
+                      <c:if test="${status!=null}">
+     <p id="erroruserid1">Invalid User</p>
+     			</c:if>     
                     <p id="erroruserid"></p>
                    <p> <input type="submit" value="Submit" /> </p>
                    </form>

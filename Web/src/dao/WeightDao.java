@@ -55,7 +55,34 @@ public class WeightDao {
 		
 		return weight;
 	}
+
 	
+	public boolean isValidUser(String username){
+		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		Statement ps = null;
+		ResultSet rs = null;
+		boolean check = true;
+		int count=0;
+		try {
+			ps = dbConnection.getConnection();
+			String sqlStatement = "select count(userid) as count from userlogin where userid='"+username+"'";
+			rs= ps.executeQuery(sqlStatement);
+			
+			while(rs.next()){
+				count = rs.getInt("count");
+			}
+			
+			if(count==1){
+				check = true;
+			}else{
+				check = false;
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
 
 	
 	public void doProcessed(String username,String status,float price,int id){

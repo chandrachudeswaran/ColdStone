@@ -157,19 +157,62 @@ public class UserDao {
 		return "1";
 	}
 	
+	
+	public boolean isUserExists(String username){
+		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		String sqlStatement="";
+		Statement ps = null;
+		ResultSet rs = null;
+		boolean check = false;
+		
+		
+		try {
+			
+			int count =0;
+			ps = dbConnection.getConnection();
+			sqlStatement = "select count(userid)as count from userlogin where userid='"+username+"'";
+			rs = ps.executeQuery(sqlStatement);
+			
+			while(rs.next()){
+				count = rs.getInt("count");
+			}
+			ps.close();
+			if(count > 1){
+				check = true;
+			}else{
+				check = false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
 	public int toggleSession(String device,String session,String username){
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		String sqlStatement="";
+		
 		Statement ps = null;
 		int statusUpdate=0;
+		
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "update session set session='"+session+"' where deviceid = '"+device+"' and userid='"+username+"'";
+			sqlStatement= "update session set session='"+session+"' where deviceid = '"+device+"' and userid='"+username+"'";
 			statusUpdate=ps.executeUpdate(sqlStatement);
+			
+			if(statusUpdate==0){
+				sqlStatement = "insert into session values('"+username+"','"+device+"','Y')";
+			    ps.executeUpdate(sqlStatement);
+			}
+			
 			ps.close();
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE,e.toString());
 		}
-		System.out.println(statusUpdate);
+		logger.log(Level.INFO,"Update Query Result Value "+statusUpdate);
+		
+		
 		return statusUpdate;
 	}
 	

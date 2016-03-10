@@ -5,5 +5,5 @@ package com.example.chandra.coldstone;
  */
 public class ColdStoneConstants {
 
-    public static final String baseurl = "http://192.168.1.106:8080/ColdStone/rest/user";
+    public static final String baseurl = "http://192.168.1.127:8080/ColdStone/rest/user";
 }

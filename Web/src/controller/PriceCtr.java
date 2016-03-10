@@ -28,7 +28,17 @@ public class PriceCtr extends HttpServlet {
 
 		logger.log(Level.INFO, request.getServletPath());
 		WeightService service = new WeightService();
+		
+		
+		
 		if (request.getServletPath().equals("/price")) {
+			logger.log(Level.INFO,"Calling bill");
+			String queryParameter = request.getQueryString();
+			if(queryParameter!= null){
+				logger.log(Level.INFO, queryParameter);
+				request.setAttribute("status", "invalid");
+				
+			}
 			
 			String url = "price.jsp";
 			Weight weight = service.getLatestWeight();
@@ -44,13 +54,21 @@ public class PriceCtr extends HttpServlet {
 		} else if (request.getServletPath().equals("/user")) {
 			
 			String userid = request.getParameter("userid");
-			String cost = request.getParameter("price");
-			cost = cost.replace("$", "");
-			cost = cost.replace("cents", "");
-			float price = Float.valueOf(cost.trim());
-			int id = Integer.valueOf(request.getParameter("id"));
-			service.updateProcessedStatus(userid, "P", price, id);
-			forwardRequest(request, response, "index.jsp");
+			if(service.isValidUser(userid)){
+				logger.log(Level.INFO,"Valid user");
+				String cost = request.getParameter("price");
+				cost = cost.replace("$", "");
+				cost = cost.replace("cents", "");
+				float price = Float.valueOf(cost.trim());
+				int id = Integer.valueOf(request.getParameter("id"));
+				service.updateProcessedStatus(userid, "P", price, id);
+				forwardRequest(request, response, "index.jsp");
+				
+			}else{
+				logger.log(Level.INFO,"Invalid user ");
+				forwardRequest(request, response, "/price?status=invalid");
+			}
+			
 			
 		} else if (request.getServletPath().equals("/nobill")) {
 				request.setAttribute("billstatus", "none");

@@ -34,9 +34,14 @@ public class UserApi {
 	@Produces(MediaType.TEXT_PLAIN)
 	public int doSignup(@FormParam("username") String username,@FormParam("password") String password,@FormParam("device") String device){
 		UserService userService = new UserService();
-		return userService.doSingup(username, password,device);
+		if(userService.isUserExists(username)){
+			return 0;
+		}else{
+			return userService.doSingup(username, password,device);
+		}
+		
 	}
-	
+
 	@Path("/session")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)

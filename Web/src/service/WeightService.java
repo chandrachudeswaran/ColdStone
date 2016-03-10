@@ -22,10 +22,14 @@ public class WeightService {
 	public Weight getLatestWeight() {
 		return weightDao.getLatestWeight();
 	}
+	
+	public boolean isValidUser(String username){
+		return weightDao.isValidUser(username);
+	}
 
 	public String getCost(String weight) {
 		if (weight != null) {
-			int weight_int = Integer.valueOf(weight);
+			double weight_int = Double.valueOf(weight);
 			double totalCost = weight_int * 10;
 
 			totalCost = totalCost / 100;
