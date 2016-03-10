@@ -11,5 +11,5 @@ and to an Android device using REST API.
 
 Technologies : Java, J2EE, Jersey Framework, Python and Android
 
-![screenshot1](https://cloud.githubusercontent.com/assets/14880033/13681916/7f6abea2-e6cd-11e5-945c-42f3872d49aa.png)
+![screenshot_20151212-202156](https://cloud.githubusercontent.com/assets/14880033/13688326/2842ba4a-e6ef-11e5-9916-4681dead7c4a.png)
 
