@@ -10,3 +10,6 @@ Develop a REST service using the weight calculated by the Flexi Sensor. An Adrun
 and to an Android device using REST API.
 
 Technologies : Java, J2EE, Jersey Framework, Python and Android
+
+![screenshot1](https://cloud.githubusercontent.com/assets/14880033/13681916/7f6abea2-e6cd-11e5-945c-42f3872d49aa.png)
+
