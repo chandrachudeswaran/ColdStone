@@ -170,7 +170,7 @@ public class UserDao {
 			
 			int count =0;
 			ps = dbConnection.getConnection();
-			sqlStatement = "select count(userid)as count from userlogin where userid='"+username+"'";
+			sqlStatement = "select count(userid) as count from userlogin where userid='"+username+"'";
 			rs = ps.executeQuery(sqlStatement);
 			
 			while(rs.next()){

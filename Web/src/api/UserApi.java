@@ -4,12 +4,15 @@ package api;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import service.ToppingService;
 import service.UserService;
+import dao.Toppings;
 import dao.Weight;
 
 @Path("/user")
@@ -82,6 +85,15 @@ public class UserApi {
 		UserService userService = new UserService();
 		return userService.toggleSession(device, "N",username);
 	}
+	
+	@Path("/gettoppings")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Toppings> geToppings(){
+		ToppingService toppingservice = new ToppingService();
+		return toppingservice.getToppings();
+	}
+	
 	
 	
 	
