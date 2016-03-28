@@ -20,4 +20,8 @@ public class ToppingService {
 	public List<Toppings> getToppings() {
 		return toppingsDao.getToppings();
 	}
+	
+	public int saveToppings(String id, String price, String  list) {
+		return toppingsDao.saveToppings(Integer.valueOf(id), Float.valueOf(price), list);
+	}
 }

@@ -10,13 +10,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import service.ToppingService;
-import service.UserService;
 import dao.Toppings;
 import dao.Weight;
+import service.ToppingService;
+import service.UserService;
 
 @Path("/user")
 public class UserApi {
+	
 
 	@Path("/login")
 	@POST
@@ -92,6 +93,15 @@ public class UserApi {
 	public List<Toppings> geToppings(){
 		ToppingService toppingservice = new ToppingService();
 		return toppingservice.getToppings();
+	}
+	
+	
+	@Path("/savetoppings")
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public int updateToppings(@FormParam("id") String id ,@FormParam("price") String price,@FormParam("toppings") String toppings){
+		ToppingService toppingService = new ToppingService();
+		return toppingService.saveToppings(id, price, toppings);
 	}
 	
 	

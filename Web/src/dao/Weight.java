@@ -11,6 +11,8 @@ public class Weight {
 	private String userid="";
 	private String timeinserted;
 	private String dateinserted;
+	private String toppings;
+	private float toppingsrate;
 	public int getId() {
 		return id;
 	}
@@ -53,12 +55,28 @@ public class Weight {
 	public void setDateinserted(String dateinserted) {
 		this.dateinserted = dateinserted;
 	}
+	
+	public String getToppings() {
+		return toppings;
+	}
+	public void setToppings(String toppings) {
+		this.toppings = toppings;
+	}
+	public float getToppingsrate() {
+		return toppingsrate;
+	}
+	public void setToppingsrate(float toppingsrate) {
+		this.toppingsrate = toppingsrate;
+	}
 	@Override
 	public String toString() {
-		return "Weight [weight=" + weight + ", status=" + status + ", userid="
-				+ userid + ", timeinserted=" + timeinserted + ", dateinserted="
-				+ dateinserted + "]";
+		return "Weight [id=" + id + ", price=" + price + ", weight=" + weight + ", status=" + status + ", userid="
+				+ userid + ", timeinserted=" + timeinserted + ", dateinserted=" + dateinserted + ", toppings="
+				+ toppings + ", toppingsrate=" + toppingsrate + "]";
 	}
+	
+	
+	
 	
 	
 

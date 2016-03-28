@@ -77,11 +77,14 @@ public class UserDao {
 				weight.setStatus(rs.getString("billstatus"));
 				weight.setId(rs.getInt("id"));
 				weight.setPrice(rs.getFloat("price"));
+				weight.setToppings(rs.getString("toppings"));
+				weight.setToppingsrate(rs.getFloat("toppingsrate"));
 			}
 			
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE,e.toString());
 		}
+		logger.log(Level.INFO, weight.toString());
 		return weight;
 	}
 	
@@ -106,6 +109,8 @@ public class UserDao {
 				weight.setStatus(rs.getString("billstatus"));
 				weight.setId(rs.getInt("id"));
 				weight.setPrice(rs.getFloat("price"));
+				weight.setToppings(rs.getString("toppings"));
+				weight.setToppingsrate(rs.getFloat("toppingsrate"));
 				list.add(weight);
 			}
 		} catch (SQLException e) {
