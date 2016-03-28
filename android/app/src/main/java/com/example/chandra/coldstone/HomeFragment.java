@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.LinkedHashSet;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,15 +37,21 @@ public class HomeFragment extends Fragment {
     TextView weightlabel;
     TextView totallabel;
     TextView pricelabel;
+    TextView toppings;
     LinearLayout layout;
     Button accept;
     Button reject;
     LinearLayout buttonsLayout;
     CardView cardView;
+    boolean displayTopping;
+    boolean transaction;
 
+    Bill billinfo;
     CheckBillInterface checkBillInterface;
 
     public HomeFragment() {
+        displayTopping=true;
+
 
     }
 
@@ -51,6 +59,16 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if(transaction){
+            menu.clear();
+            menu.add(0, 4, Menu.NONE, "Re-Select toppings");
+            menu.add(0, R.id.history, Menu.NONE, "History");
+            menu.add(0,R.id.logout,Menu.NONE,"Log out");
+        }
     }
 
     @Override
@@ -68,6 +86,9 @@ public class HomeFragment extends Fragment {
         }
         else if(id==R.id.logout){
                 checkBillInterface.doLogout();
+        }else if(id==4){
+            displayTopping=true;
+            displayBill(billinfo);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -83,9 +104,11 @@ public class HomeFragment extends Fragment {
         unitprice = (TextView ) view.findViewById(R.id.pricepergram);
         image = (ImageView) view.findViewById(R.id.image);
         weightlabel = (TextView)view.findViewById(R.id.weightlabel);
+        toppings = (TextView) view.findViewById(R.id.toppingsname);
         totallabel = (TextView)view.findViewById(R.id.totallabel);
         pricelabel = (TextView)view.findViewById(R.id.pricelabel);
         layout=(LinearLayout)view.findViewById(R.id.parentchild);
+
         accept = (Button)view.findViewById(R.id.accept);
         reject = (Button) view.findViewById(R.id.reject);
         noTrans = (TextView) view.findViewById(R.id.noTrans);
@@ -109,16 +132,13 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-
-
-
-
     public interface CheckBillInterface{
         public void getBillForUser();
         public void doUserActionOnBill(boolean check);
         public void showHistoryFragment();
         public void doLogout();
+        public void showToppingsFragment();
+
 
     }
 
@@ -127,6 +147,7 @@ public class HomeFragment extends Fragment {
         super.onAttach(activity);
         try {
             checkBillInterface = (CheckBillInterface) activity;
+            activity.setTitle("EasyPay - Home");
         } catch (ClassCastException e) {
             throw new ClassCastException();
         }
@@ -137,42 +158,45 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         checkBillInterface.getBillForUser();
-
-
     }
 
+
+
     public void displayBill(Bill bill) {
-        if (bill != null) {
+        billinfo=bill;
+        if (bill != null && bill.getSelectedToppings()!=null) {
+            transaction=true;
             weight.setText(bill.getWeight());
-            total.setText("$" + Double.toString(bill.getPrice()));
+            total.setText("$" + Double.toString(bill.getPrice()+ bill.getToppingsPrice()));
             unitprice.setText("10 cents");
-            Picasso.with(this.getContext()).load("https://www.coldstonecreamery.com/assets/img/products/signaturecreations/signaturecreations.jpg").into(image);
-        }else{
-            /*weight.setVisibility(View.INVISIBLE);
-            total.setVisibility(View.INVISIBLE);
-            pricelabel.setVisibility(View.INVISIBLE);
-            unitprice.setVisibility(View.INVISIBLE);
-            weightlabel.setVisibility(View.INVISIBLE);
-            totallabel.setVisibility(View.INVISIBLE);
-            accept.setVisibility(View.INVISIBLE);
-            reject.setVisibility(View.INVISIBLE);
-            image.setVisibility(View.INVISIBLE);
-
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            TextView view = new TextView(getActivity());
-            view.setLayoutParams(layoutParams);
-            view.setText("No Transactions found!");
-            view.setTextSize(20);
-            view.setGravity(Gravity.CENTER);
-            layout.addView(view);*/
-
+            toppings.setText(" " + ToppingsUtility.convertSetToString(bill.getSelectedToppings()));
+            Picasso.with(this.getContext()).load("https://www.coldstonecreamery.com/assets/img/" +
+                            "products/signaturecreations/signaturecreations.jpg").into(image);
+            if(displayTopping){
+                displayTopping=displayToppings();
+            }
+        }else if(bill==null){
+            transaction=false;
+            getActivity().invalidateOptionsMenu();
             cardView.setVisibility(View.INVISIBLE);
             buttonsLayout.setVisibility(View.INVISIBLE);
             noTrans.setVisibility(View.VISIBLE);
+        }else{
+            transaction=true;
+            displayToppings();
+
 
         }
     }
+
+
+    public boolean displayToppings(){
+        checkBillInterface.showToppingsFragment();
+        return false;
+    }
+
+
+
 
 
 }

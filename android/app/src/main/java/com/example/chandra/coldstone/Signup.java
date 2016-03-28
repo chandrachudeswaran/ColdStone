@@ -76,6 +76,7 @@ public class Signup extends Fragment {
         super.onAttach(activity);
         try {
             signupInterface = (SignupInterface) activity;
+            activity.setTitle("EasyPay - Signup");
         } catch (ClassCastException e) {
             throw new ClassCastException();
         }

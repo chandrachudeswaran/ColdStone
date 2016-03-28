@@ -39,6 +39,7 @@ public class HistoryFragment extends Fragment {
         super.onAttach(activity);
         try {
             historyInterface = (HistoryInterface) activity;
+            activity.setTitle("EasyPay - History");
         } catch (ClassCastException e) {
             throw new ClassCastException();
         }

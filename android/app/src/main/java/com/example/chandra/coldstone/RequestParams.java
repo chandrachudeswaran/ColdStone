@@ -30,7 +30,7 @@ public class RequestParams {
 
     public void setUrl(String function){
         StringBuilder sb = new StringBuilder();
-        sb.append(ColdStoneConstants.baseurl);
+        sb.append(EasyPayConstants.baseurl);
         sb.append("/");
         sb.append(function);
         this.base_url = sb.toString();

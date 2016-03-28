@@ -77,6 +77,7 @@ public class LoginFragment extends Fragment {
         super.onAttach(activity);
         try {
             loginInterface = (LoginInterface) activity;
+            activity.setTitle("EasyPay - Login");
         } catch (ClassCastException e) {
             throw new ClassCastException();
         }

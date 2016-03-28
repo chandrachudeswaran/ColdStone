@@ -1,5 +1,7 @@
 package com.example.chandra.coldstone;
 
+import java.util.LinkedHashSet;
+
 /**
  * Created by Raghuveer on 2/9/2016.
  */
@@ -11,7 +13,12 @@ public class Bill {
     String time;
     String date;
     int id;
+    LinkedHashSet<String> selectedToppings;
+    double toppingsPrice;
 
+    public Bill(){
+        //selectedToppings = new LinkedHashSet<>();
+    }
     @Override
     public String toString() {
         return "Bill{" +
@@ -20,6 +27,8 @@ public class Bill {
                 ", price=" + price +
                 ", time='" + time + '\'' +
                 ", date='" + date + '\'' +
+                ", id=" + id +
+                ", selectedToppings=" + selectedToppings +
                 '}';
     }
 
@@ -38,6 +47,7 @@ public class Bill {
     public void setWeight(String weight) {
         this.weight = weight;
     }
+
 
     public String getStatus() {
         return status;
@@ -69,5 +79,21 @@ public class Bill {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public LinkedHashSet<String> getSelectedToppings() {
+        return selectedToppings;
+    }
+
+    public void setSelectedToppings(LinkedHashSet<String> selectedToppings) {
+        this.selectedToppings = selectedToppings;
+    }
+
+    public double getToppingsPrice() {
+        return toppingsPrice;
+    }
+
+    public void setToppingsPrice(double toppingsPrice) {
+        this.toppingsPrice = toppingsPrice;
     }
 }
