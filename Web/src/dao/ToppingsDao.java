@@ -41,20 +41,6 @@ public class ToppingsDao {
 		return list;
 	}
 
-	public int saveToppings(int id, float price, String list) {
-		logger.log(Level.INFO, list);
-		int status = 0;
-		try {
-			DbConnection dbConnection = DataBaseSingleton.getInstance();
-			Statement ps = null;
-			ps = dbConnection.getConnection();
-			String sql = "update billinfo set toppingsrate ='" + price + "', toppings='" + list + "' where id='" + id + "'";
-			status = ps.executeUpdate(sql);
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return status;
-	}
+
 
 }

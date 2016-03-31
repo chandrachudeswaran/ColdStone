@@ -119,14 +119,14 @@ public class UserDao {
 		return list;
 	}
 	
-	public int updateUserStatus(String status,String username,String id){
+	public int updateUserStatus(String status,String username,String id,String toppings,float price){
 		int id_int = Integer.parseInt(id);
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {
 			ps = dbConnection.getConnection();
-			String sqlStatement= "update billinfo set billstatus='"+status+"' where id = '"+id_int+"'";
+			String sqlStatement= "update billinfo set billstatus='"+status+"',toppings='"+toppings+"',price='"+price+"' where id = '"+id_int+"'";
 			statusUpdate=ps.executeUpdate(sqlStatement);
 			ps.close();
 		} catch (SQLException e) {

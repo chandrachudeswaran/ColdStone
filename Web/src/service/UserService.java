@@ -36,8 +36,8 @@ public class UserService {
 		return userDao.getHistory(username);
 	}
 
-	public int updateUserStatus(String status, String username,String id) {
-		return userDao.updateUserStatus(status, username,id);
+	public int updateUserStatus(String status, String username,String id,String toppings,String price) {
+		return userDao.updateUserStatus(status, username,id,toppings,Float.valueOf(price));
 	}
 
 	public String checkSessionExists(String device) {

@@ -74,9 +74,10 @@ public class UserApi {
 	@Path("/statusupdate")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	public int updateUserStatus(@FormParam("username") String username,@FormParam("status") String status,@FormParam("id") String id){
+	public int updateUserStatus(@FormParam("username") String username,@FormParam("status") String status,
+			@FormParam("id") String id,@FormParam("toppings") String toppings,@FormParam("price") String price){
 		UserService userService = new UserService();
-		return userService.updateUserStatus(status, username,id);
+		return userService.updateUserStatus(status, username,id,toppings,price);
 	}
 	
 	@Path("/logout")
@@ -95,14 +96,7 @@ public class UserApi {
 		return toppingservice.getToppings();
 	}
 	
-	
-	@Path("/savetoppings")
-	@POST
-	@Produces(MediaType.TEXT_PLAIN)
-	public int updateToppings(@FormParam("id") String id ,@FormParam("price") String price,@FormParam("toppings") String toppings){
-		ToppingService toppingService = new ToppingService();
-		return toppingService.saveToppings(id, price, toppings);
-	}
+
 	
 	
 	
