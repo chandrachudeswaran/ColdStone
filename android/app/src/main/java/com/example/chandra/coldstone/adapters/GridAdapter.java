@@ -1,4 +1,4 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.chandra.coldstone.R;
+import com.example.chandra.coldstone.dto.Toppings;
 import com.squareup.picasso.Picasso;
 
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 

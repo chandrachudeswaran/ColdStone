@@ -1,4 +1,6 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.database;
+
+import com.example.chandra.coldstone.constants.EasyPayConstants;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

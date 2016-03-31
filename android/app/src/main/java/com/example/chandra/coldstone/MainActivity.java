@@ -1,48 +1,43 @@
 package com.example.chandra.coldstone;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+
+import android.content.Intent;
+
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import android.view.View;
+import android.widget.EditText;
+import com.example.chandra.coldstone.constants.EasyPayConstants;
+import com.example.chandra.coldstone.database.RequestParams;
+import com.example.chandra.coldstone.database.RestCall;
 
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.LoginInterface,
-        Signup.SignupInterface, HomeFragment.CheckBillInterface, HistoryFragment.HistoryInterface,ToppingsFragment.ToppingsInterface {
+public class MainActivity extends AppCompatActivity implements RestCall.MainFunctionCall {
 
-
-    ProgressDialog dialog;
     String function;
     String username;
-    Bill billinfo;
-    HomeFragment homeFragment;
     String android_id;
-    HistoryFragment historyFragment;
     Toolbar mToolbar;
     boolean session=false;
-    boolean signup=false;
-    ToppingsFragment toppingsFragment;
+    EditText edit_username;
+    EditText edit_password;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setTitle(EasyPayConstants.BASE_TITLE + "Login");
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+
+        edit_username = (EditText) findViewById(R.id.username);
+        edit_password = (EditText) findViewById(R.id.password);
+
         android_id = Settings.Secure.getString(getApplication().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
@@ -50,276 +45,82 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     public void checkSessionExists(){
-        RequestParams params = new RequestParams(EasyPayConstants.baseurl, "POST");
+        RequestParams params = new RequestParams(EasyPayConstants.baseurl, EasyPayConstants.METHOD_POST);
         this.function = EasyPayConstants.FUNC_SESSION;
         params.setUrl(this.function);
-        params.addParams("device", android_id);
-        new CallRest().execute(params);
-    }
-
-    public void showLoginFragment() {
-        getFragmentManager().beginTransaction().add(R.id.container, new LoginFragment(), "login").commit();
-    }
-    @Override
-    public void doLoginCheck(String username, String password) {
-        RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, "POST");
-        this.function = EasyPayConstants.FUNC_LOGIN;
-        this.username = username;
-        requestParams.setUrl(this.function);
-        requestParams.addParams("username", username);
-        requestParams.addParams("password", password);
-        requestParams.addParams("device",android_id);
-        new CallRest().execute(requestParams);
+        params.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
+        new RestCall(MainActivity.this,EasyPayConstants.FUNC_SESSION).execute(params);
     }
 
     @Override
-    public void showSignup() {
-        getFragmentManager().beginTransaction().addToBackStack("login")
-                .replace(R.id.container, new Signup(), "signup").commit();
-    }
-
-    @Override
-    public void doSignup(String username, String password) {
-        RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, "POST");
-        this.function = EasyPayConstants.FUNC_SIGNUP;
-        requestParams.setUrl(this.function);
-        this.username = username;
-        requestParams.addParams("username", username);
-        requestParams.addParams("password", password);
-        requestParams.addParams("device", android_id);
-        new CallRest().execute(requestParams);
-    }
-
-
-    public void showHome(String username) {
-        this.username = username;
-        session=true;
-        toppingsFragment = new ToppingsFragment();
-        homeFragment = new HomeFragment();
-        if(signup){
-            getFragmentManager().popBackStack();
-            getFragmentManager().beginTransaction().addToBackStack("login")
-                    .replace(R.id.container, homeFragment, "home").commit();
-        }else {
-            getFragmentManager().beginTransaction().addToBackStack("login")
-                    .replace(R.id.container, homeFragment, "home").commit();
+    public void doActionOnSession(String output) {
+        if (!output.equals("1")) {
+            session=true;
+            showHome(output);
         }
     }
 
     @Override
-    public void getBillForUser() {
-        RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, "POST");
-        this.function = EasyPayConstants.FUNC_GET_BILL;
-        requestParams.setUrl(this.function);
-        requestParams.addParams("username", username);
-        new CallRest().execute(requestParams);
-    }
-
-    @Override
-    public void doUserActionOnBill(boolean check) {
-        RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, "POST");
-        this.function = EasyPayConstants.FUNC_STATUS_UPDATE;
-        requestParams.setUrl(this.function);
-        requestParams.addParams("username", username);
-        requestParams.addParams("id",String.valueOf(billinfo.getId()));
-        if (check) {
-            requestParams.addParams("status", "A");
-        } else {
-            requestParams.addParams("status", "C");
+    public void doActionOnLogin(String output) {
+        int status = Integer.valueOf(output);
+        if(status==0){
+            session=true;
+            showHome(edit_username.getText().toString());
         }
-        new CallRest().execute(requestParams);
-    }
-
-    @Override
-    public void showHistoryFragment() {
-        historyFragment = new HistoryFragment();
-        getFragmentManager().beginTransaction().addToBackStack("home")
-                .replace(R.id.container, historyFragment, "history").commit();
-    }
-
-    @Override
-    public void getHistoryBillList() {
-        RequestParams params = new RequestParams(EasyPayConstants.baseurl,"POST");
-        this.function= EasyPayConstants.FUNC_HISTORY;
-        params.setUrl(this.function);
-        params.addParams("username", this.username);
-        new CallRest().execute(params);
-    }
-
-    @Override
-    public void showToppingsFragment() {
-            getFragmentManager().beginTransaction().
-                    addToBackStack("home").replace(R.id.container, toppingsFragment, "toppings").commit();
-    }
-
-    @Override
-    public void doCheckout(float price, LinkedHashSet<String> toppingsList) {
-        billinfo.setSelectedToppings(toppingsList);
-        billinfo.setToppingsPrice(price);
-        saveSelectedToppings(price, toppingsList);
-    }
-
-
-    public void saveSelectedToppings(float price, LinkedHashSet<String> toppingsList){
-        RequestParams params = new RequestParams(EasyPayConstants.baseurl,"POST");
-        this.function= EasyPayConstants.FUNC_SAVE_TOPPINGS;
-        params.setUrl(this.function);
-        params.addParams("id", String.valueOf(billinfo.getId()));
-        params.addParams("price", String.valueOf(price));
-        params.addParams("toppings", ToppingsUtility.convertSetToString(toppingsList));
-        new CallRest().execute(params);
-    }
-
-    public void displayInList(ArrayList<Bill> list){
-        historyFragment.displayHistory(list);
-    }
-
-    @Override
-    public void doLogout() {
-        RequestParams params = new RequestParams(EasyPayConstants.baseurl,"POST");
-        this.function= EasyPayConstants.FUNC_LOGOUT;
-        params.setUrl(this.function);
-        params.addParams("device", android_id);
-        params.addParams("username",username);
-        new CallRest().execute(params);
     }
 
     @Override
     public void onBackPressed() {
-          if(getFragmentManager().getBackStackEntryCount()>1){
-            getFragmentManager().popBackStack();
+        finish();
+    }
+
+    public boolean validateInput() {
+        if (edit_username.getText().length() == 0 || edit_password.getText().length() == 0) {
+            return false;
+        } else {
+            return true;
         }
-        else if(getFragmentManager().getBackStackEntryCount()>0 && !session){
-            getFragmentManager().popBackStack();
-        }else{
-            finish();
+    }
+
+    public void doLogin(View v){
+        if(validateInput()) {
+            RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, EasyPayConstants.METHOD_POST);
+            requestParams.setUrl(EasyPayConstants.FUNC_LOGIN);
+            requestParams.addParams(EasyPayConstants.PARAMETER_USERNAME, edit_username.getText().toString());
+            requestParams.addParams(EasyPayConstants.PARAMETER_PASSWORD, edit_password.getText().toString());
+            requestParams.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
+            new RestCall(MainActivity.this,EasyPayConstants.FUNC_LOGIN).execute(requestParams);
         }
+    }
+
+    public void showSignUp(View v){
+        Intent intent = new Intent(MainActivity.this,SignupActivity.class);
+        intent.putExtra(EasyPayConstants.ANDROID_DEVICE_ID_KEY, android_id);
+        startActivity(intent);
+    }
+
+    public void showHome(String username){
+        this.username=username;
+        session=true;
+        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+        intent.putExtra("username", this.username);
+        intent.putExtra(EasyPayConstants.ANDROID_DEVICE_ID_KEY,android_id);
+        startActivityForResult(intent, 100);
     }
 
     @Override
-    public void getToppings() {
-        RequestParams params = new RequestParams(EasyPayConstants.baseurl,"GET");
-        this.function= EasyPayConstants.FUNC_GET_TOPPINGS;
-        params.setUrl(this.function);
-        new CallRest().execute(params);
-    }
-
-    public void doActionOnSession(String output){
-        if (!output.equals("1")) {
-            showHome(output);
-        } else {
-            showLoginFragment();
-        }
-    }
-
-    public void doActionOnLogin(String output){
-        int integer = Integer.valueOf(output);
-        if (function.equals(EasyPayConstants.FUNC_SIGNUP)) {
-            if (integer == 1) {
-                session=true;
-                signup=true;
-                showHome(MainActivity.this.username);
-            } else {
-                Toast.makeText(getApplicationContext(), "Signup failed", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        } else {
-            if (integer == 0) {
-                session=true;
-                showHome(MainActivity.this.username);
-            } else {
-                Toast.makeText(getApplicationContext(), "Login parameters incorrect", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-    }
-
-    public void doActionOnHistory(String output){
-        ArrayList<Bill> list = ParseUtility.getHistory(output);
-        displayInList(list);
-    }
-
-    public void postGetBill(String output){
-        billinfo = ParseUtility.parseBill(output);
-        homeFragment.displayBill(billinfo);
-    }
-
-    public void postGetToppings(String output){
-        try {
-            toppingsFragment.displayToppingsList
-                    (ParseUtility.getToppingsListFromRest(new JSONArray(output)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void doActionOnUpdates(String output){
-        int bill = Integer.valueOf(output);
-        if(MainActivity.this.function.equals(EasyPayConstants.FUNC_LOGOUT)){
-            if(bill==1){
-                session=false;
-                onBackPressed();
-            }
-        }else {
-            if (bill == 1) {
-                Toast.makeText(getApplicationContext(), "Thank you for purchase", Toast.LENGTH_LONG);
-            } else {
-                Toast.makeText(getApplicationContext(), "Thank you", Toast.LENGTH_LONG);
-            }
-            Bill b = null;
-            homeFragment.displayBill(b);
-
-
-        }
-    }
-
-    private class CallRest extends AsyncTask<RequestParams,Void,String>{
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(MainActivity.this);
-            dialog.setCancelable(false);
-            dialog.setMessage("Requesting..");
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(RequestParams... params) {
-            BufferedReader reader = null;
-            String line = "";
-            String status = "";
-            try {
-                HttpURLConnection con = params[0].getConnection();
-                reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                if ((line = reader.readLine()) != null) {
-                    status = line;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                if (data.getExtras() != null) {
+                    if(data.getBooleanExtra("Session",false)){
+                        finish();
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return status;
-        }
 
-        @Override
-        protected void onPostExecute(String output) {
-            Log.d("AsyncOutput",output);
-            dialog.dismiss();
-            if(MainActivity.this.function.equals(EasyPayConstants.FUNC_SESSION)){
-               doActionOnSession(output);
-            }else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_LOGIN)||
-                    MainActivity.this.function.equals(EasyPayConstants.FUNC_SIGNUP)){
-               doActionOnLogin(output);
-            }else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_HISTORY)){
-                doActionOnHistory(output);
-            }else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_GET_BILL)){
-              postGetBill(output);
-            }else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_GET_TOPPINGS)){
-                postGetToppings(output);
-            }else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_SAVE_TOPPINGS)){
-                getFragmentManager().popBackStack();
-            } else if(MainActivity.this.function.equals(EasyPayConstants.FUNC_STATUS_UPDATE)
-                    || MainActivity.this.function.equals(EasyPayConstants.FUNC_LOGOUT)){
-                doActionOnUpdates(output);
             }
         }
     }
+
+
 }

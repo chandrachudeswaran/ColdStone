@@ -1,4 +1,4 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.utility;
 
 import java.util.LinkedHashSet;
 

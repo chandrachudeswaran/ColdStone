@@ -1,4 +1,8 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.utility;
+
+import com.example.chandra.coldstone.dto.Bill;
+import com.example.chandra.coldstone.dto.Toppings;
+import com.example.chandra.coldstone.constants.DatabaseConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,16 +46,16 @@ public class ParseUtility {
     public static Bill setJSONString(JSONObject obj) {
         Bill bill = new Bill();
         try {
-            bill.setDate(obj.getString(EasyPayConstants.BILL_DATE));
-            bill.setPrice(obj.getDouble(EasyPayConstants.BILL_PRICE));
-            bill.setStatus(obj.getString(EasyPayConstants.BILL_STATUS));
-            bill.setWeight(obj.getString(EasyPayConstants.BILL_WEIGHT));
-            bill.setTime(obj.getString(EasyPayConstants.BILL_TIME));
-            bill.setId(obj.getInt(EasyPayConstants.ID));
-            if (!obj.isNull(EasyPayConstants.BILL_TOPPINGS)) {
-                String toppings = obj.getString(EasyPayConstants.BILL_TOPPINGS);
+            bill.setDate(obj.getString(DatabaseConstants.BILL_DATE));
+            bill.setPrice(obj.getDouble(DatabaseConstants.BILL_PRICE));
+            bill.setStatus(obj.getString(DatabaseConstants.BILL_STATUS));
+            bill.setWeight(obj.getString(DatabaseConstants.BILL_WEIGHT));
+            bill.setTime(obj.getString(DatabaseConstants.BILL_TIME));
+            bill.setId(obj.getInt(DatabaseConstants.ID));
+            if (!obj.isNull(DatabaseConstants.BILL_TOPPINGS)) {
+                String toppings = obj.getString(DatabaseConstants.BILL_TOPPINGS);
                 bill.setSelectedToppings(ToppingsUtility.convertStringToSet(toppings));
-                bill.setToppingsPrice(obj.getDouble(EasyPayConstants.BILL_TOPPINGS_RATE));
+                bill.setToppingsPrice(obj.getDouble(DatabaseConstants.BILL_TOPPINGS_RATE));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,15 +69,16 @@ public class ParseUtility {
         try {
             for (int i = 0; i < array.length(); i++) {
                 Toppings toppings = new Toppings();
-                toppings.setId(array.getJSONObject(i).getInt(EasyPayConstants.ID));
-                toppings.setName(array.getJSONObject(i).getString(EasyPayConstants.TOPPINGS_NAME));
-                toppings.setPrice((float) array.getJSONObject(i).getDouble(EasyPayConstants.TOPPINGS_PRICE));
-                toppings.setUrl(array.getJSONObject(i).getString(EasyPayConstants.TOPPINGS_URL));
+                toppings.setId(array.getJSONObject(i).getInt(DatabaseConstants.ID));
+                toppings.setName(array.getJSONObject(i).getString(DatabaseConstants.TOPPINGS_NAME));
+                toppings.setPrice((float) array.getJSONObject(i).getDouble(DatabaseConstants.TOPPINGS_PRICE));
+                toppings.setUrl(array.getJSONObject(i).getString(DatabaseConstants.TOPPINGS_URL));
                 list.add(toppings);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        ActivityUtility.Helper.writeDebugLog(list.toString());
         return list;
     }
 }

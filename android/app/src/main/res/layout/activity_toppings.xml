@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.chandra.coldstone.ToppingsActivity">
+
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/toolbar" />
+
+
+    <GridView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gridviewid"
+            android:numColumns="2">
+
+        </GridView>
+
+        <Button
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Proceed to Checkout"
+            android:textColor="@color/md_white_1000"
+            android:background="@color/colorPrimary"
+            android:id="@+id/checkOut"
+            android:onClick="doCheckout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+

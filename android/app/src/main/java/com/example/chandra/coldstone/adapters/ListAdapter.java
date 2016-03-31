@@ -1,4 +1,4 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.chandra.coldstone.R;
+import com.example.chandra.coldstone.dto.Bill;
 
 import java.util.ArrayList;
 
@@ -44,7 +47,6 @@ public class ListAdapter extends ArrayAdapter<Bill> {
         date.setText("Purchase Date: " +list.get(position).getDate());
         TextView status =(TextView)convertView.findViewById(R.id.status);
         TextView toppings =(TextView)convertView.findViewById(R.id.toppings);
-        TextView toppingscost = (TextView) convertView.findViewById(R.id.toppingscost);
 
         if(list.get(position).getSelectedToppings()!=null) {
             StringBuilder builder = new StringBuilder();
@@ -57,7 +59,7 @@ public class ListAdapter extends ArrayAdapter<Bill> {
                 }
             }
             toppings.setText("Toppings: " + builder.toString());
-            toppingscost.setText("Toppings Price: "+list.get(position).getToppingsPrice() + "");
+            cost.setText("Price: "+ String.valueOf(list.get(position).getPrice() + list.get(position).getToppingsPrice()));
         }
         if(list.get(position).getStatus().equals("A")){
             status.setText("Status: " + "Accepted");

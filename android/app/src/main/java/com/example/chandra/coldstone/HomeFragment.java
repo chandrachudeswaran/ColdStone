@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,11 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.chandra.coldstone.dto.Bill;
+import com.example.chandra.coldstone.utility.ToppingsUtility;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
-import java.util.LinkedHashSet;
 
 
 /**
@@ -137,7 +133,7 @@ public class HomeFragment extends Fragment {
         public void doUserActionOnBill(boolean check);
         public void showHistoryFragment();
         public void doLogout();
-        public void showToppingsFragment();
+       // public void showToppingsFragment();
 
 
     }
@@ -191,7 +187,7 @@ public class HomeFragment extends Fragment {
 
 
     public boolean displayToppings(){
-        checkBillInterface.showToppingsFragment();
+        //checkBillInterface.showToppingsFragment();
         return false;
     }
 

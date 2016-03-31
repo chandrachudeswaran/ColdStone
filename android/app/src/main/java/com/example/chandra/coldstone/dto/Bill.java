@@ -1,11 +1,15 @@
-package com.example.chandra.coldstone;
+package com.example.chandra.coldstone.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 
 /**
  * Created by Raghuveer on 2/9/2016.
  */
-public class Bill {
+public class Bill implements Serializable {
 
     String weight;
     String status;
@@ -16,9 +20,10 @@ public class Bill {
     LinkedHashSet<String> selectedToppings;
     double toppingsPrice;
 
-    public Bill(){
-        //selectedToppings = new LinkedHashSet<>();
+    public Bill() {
+
     }
+
     @Override
     public String toString() {
         return "Bill{" +
@@ -96,4 +101,6 @@ public class Bill {
     public void setToppingsPrice(double toppingsPrice) {
         this.toppingsPrice = toppingsPrice;
     }
+
+
 }

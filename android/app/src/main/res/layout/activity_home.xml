@@ -1,0 +1,230 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.chandra.coldstone.HomeActivity">
+
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorBackground"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/noTrans"
+            android:text="No Transactions Found"
+            android:fontFamily="sans-serif-light"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:textColor="@color/md_deep_orange_A400"
+
+            />
+
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="7dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:scaleType="fitXY"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <LinearLayout
+                    android:id="@+id/parentchild"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="7dp">
+
+                    <TextView
+                        android:id="@+id/weightlabel"
+
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:layout_weight="1"
+                        android:layout_margin="7dp"
+                        android:text="Weight"/>
+
+                    <TextView
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:layout_margin="7dp"
+                        android:text="weight "
+
+                        android:id="@+id/weight"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/pricelabel"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:layout_weight="1"
+                        android:layout_margin="7dp"
+                        android:text="Price per gram  "/>
+
+                    <TextView
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:text="weight "
+                        android:layout_margin="7dp"
+                        android:id="@+id/pricepergram"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/topppingslabel"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:layout_weight="1"
+                        android:layout_margin="7dp"
+                        android:text="Toppings  "/>
+
+                    <TextView
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:text="weight "
+                        android:layout_margin="7dp"
+                        android:id="@+id/toppingsname"/>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/totallabel"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                        android:layout_width="match_parent"
+                        android:fontFamily="sans-serif"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="14dp"
+                        android:text="Total "/>
+
+                    <TextView
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                        android:layout_width="match_parent"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="weight "
+                        android:textColor="@color/md_deep_orange_A400"
+                        android:layout_margin="14dp"
+                        android:id="@+id/total"/>
+
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/md_white_1000"
+                android:background="@color/colorPrimary"
+
+                android:onClick="doStatusUpdate"
+                android:id="@+id/accept"
+                android:layout_height="wrap_content"
+                android:text="Accept" />
+
+            <Button
+                android:onClick="doStatusUpdate"
+                android:layout_width="match_parent"
+                android:textColor="@color/md_white_1000"
+                android:background="@color/colorPrimary"
+                android:layout_weight="1"
+                android:id="@+id/reject"
+                android:layout_height="wrap_content"
+                android:text="Reject" />
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
