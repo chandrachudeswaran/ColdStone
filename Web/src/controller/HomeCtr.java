@@ -32,10 +32,25 @@ public class HomeCtr extends HttpServlet {
 		String weight = request.getParameter("weight");
 		logger.log(Level.INFO, "Weight entered is  " + weight);
 		weight = weight.replace("\"", "").trim().toString();
+		
+		if(checkforValidWeight(weight)){
 		WeightService service = new WeightService();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		service.insertWeightInitial(weight, dateFormat.format(cal.getTime()));
+		}else{
+			logger.log(Level.INFO,"Invalid weight entered" + " "+ weight);
+		}
 
+	}
+	
+	
+	public boolean checkforValidWeight(String weight){
+		double weight_integer= Double.valueOf(weight);
+		if(weight_integer==0.0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }
