@@ -35,6 +35,9 @@ public class ToppingsActivity extends AppCompatActivity implements RestCall.Topp
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
         setTitle(EasyPayConstants.BASE_TITLE + "Select Toppings");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ice_cream_icon);
         gridView = (GridView) findViewById(R.id.gridviewid);
         getToppingsList();
     }

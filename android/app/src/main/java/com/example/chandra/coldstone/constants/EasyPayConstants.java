@@ -5,8 +5,8 @@ package com.example.chandra.coldstone.constants;
  */
 public class EasyPayConstants {
 
-    public static final String BASE_TITLE="EasyPay -";
-    public static final String baseurl = "http://192.168.1.127:8080/ColdStone/rest/user";
+    public static final String BASE_TITLE="  EasyPay -";
+    public static final String baseurl = "http://192.168.1.107:8080/ColdStone/rest/user";
 
     //Intent Constants
     public static final String ANDROID_DEVICE_ID_KEY="android_id";
