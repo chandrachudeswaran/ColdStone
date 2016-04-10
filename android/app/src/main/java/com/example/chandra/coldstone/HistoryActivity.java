@@ -21,6 +21,9 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ice_cream_icon);
         setTitle(EasyPayConstants.BASE_TITLE + "History");
 
         listView=(ListView)findViewById(R.id.listview);

@@ -14,6 +14,7 @@ public class WeightDao {
 	Logger logger = Logger.getLogger("WeightDao");
 	
 	public void insertWeight(String weight,String time,String status){
+		logger.log(Level.INFO,weight);
 		DbConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		

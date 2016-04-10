@@ -1,3 +1,4 @@
+<%@page import="constants.EasyPayConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -249,7 +250,7 @@ function checkUserId() {
                 <input type="hidden" name="id" value="<%=id%>" />
                 <input type="hidden" name="price" value="<%=cost%>" />
                     <p class="billText">Weight: <c:out value ="<%=weight%>"/> grams</p>
-                    <p class="billText">Price per gram: 10 cents</p>
+                    <p class="billText">Price per gram: <c:out value="<%=EasyPayConstants.PRICE_PER_GRAM %>"/> cents</p>
                     <p class="billTextTotal">Total: <c:out value ="<%=cost%>"/></p>
                     <p>Enter Userid: <input type="text" name="userid"/></p>
                       <c:if test="${status!=null}">

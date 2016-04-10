@@ -1,5 +1,8 @@
 package service;
 
+import java.text.DecimalFormat;
+
+import constants.EasyPayConstants;
 import dao.Weight;
 import dao.WeightDao;
 
@@ -28,15 +31,17 @@ public class WeightService {
 	}
 
 	public String getCost(String weight) {
+		DecimalFormat decimalFormat = new DecimalFormat(".##");
 		if (weight != null) {
 			double weight_int = Double.valueOf(weight);
-			double totalCost = weight_int * 10;
+			double totalCost = weight_int * EasyPayConstants.PRICE_PER_GRAM;
 
 			totalCost = totalCost / 100;
 			if (totalCost > 1) {
-				return "$" + totalCost;
+				return "$" + decimalFormat.format(totalCost);
 			} else {
-				return totalCost * 100 + "cents";
+				totalCost=Double.valueOf(decimalFormat.format(totalCost));
+				return totalCost * 100 + " cents";
 			}
 		}else{
 			return null;

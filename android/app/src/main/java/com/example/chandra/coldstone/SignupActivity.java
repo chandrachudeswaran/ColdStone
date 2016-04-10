@@ -31,7 +31,9 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setTitle("EasyPay - Signup");
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ice_cream_icon);
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);

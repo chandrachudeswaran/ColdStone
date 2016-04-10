@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.chandra.coldstone.constants.EasyPayConstants;
+import com.example.chandra.coldstone.database.CallRest;
 import com.example.chandra.coldstone.database.RequestParams;
 import com.example.chandra.coldstone.database.RestCall;
 import com.example.chandra.coldstone.dto.Bill;
+import com.example.chandra.coldstone.utility.ActivityUtility;
 import com.example.chandra.coldstone.utility.ParseUtility;
 import com.example.chandra.coldstone.utility.ToppingsUtility;
 import com.squareup.picasso.Picasso;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunctionCall {
+public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunctionCall{
 
     Toolbar mToolbar;
     TextView weight, noTrans;
@@ -45,6 +48,9 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
     boolean displayTopping;
     String android_id;
     boolean session;
+    String status;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +60,15 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ice_cream_icon);
         displayTopping = true;
         initialize();
         username = getIntent().getExtras().getString(EasyPayConstants.PARAMETER_USERNAME);
         session=true;
         android_id=getIntent().getExtras().getString(EasyPayConstants.ANDROID_DEVICE_ID_KEY);
+
         getBillForUser(username);
     }
 
@@ -80,9 +90,11 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
 
         Button b = (Button) v;
         if (b.getId() == R.id.accept) {
-            requestParams.addParams("status", "A");
+            status="A";
+            requestParams.addParams("status", status);
         } else {
-            requestParams.addParams("status", "C");
+            status="C";
+            requestParams.addParams("status", status);
         }
         new RestCall(HomeActivity.this, EasyPayConstants.FUNC_STATUS_UPDATE).execute(requestParams);
     }
@@ -98,6 +110,11 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
     public void statusUpdate(String output) {
         int count = Integer.valueOf(output);
         if (count != 0) {
+            if(status.equals("A")){
+                ActivityUtility.Helper.makeToast(HomeActivity.this,"Thanks. Enjoy the Ice-cream");
+            }else{
+                ActivityUtility.Helper.makeToast(HomeActivity.this,"Thank you!");
+            }
             displayBill(null);
         }
     }
@@ -138,10 +155,9 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
         if (bill != null && bill.getSelectedToppings() != null) {
             transaction = true;
             weight.setText(bill.getWeight());
-            unitprice.setText("10 cents");
+            unitprice.setText(EasyPayConstants.PRICE_PER_GRAM + " cents");
             displayToppingsWithBill(bill);
-            Picasso.with(this).load("https://www.coldstonecreamery.com/assets/img/" +
-                    "products/signaturecreations/signaturecreations.jpg").into(image);
+            Picasso.with(this).load(EasyPayConstants.ICE_CREAM_IMAGE).into(image);
             if (displayTopping) {
                 displayToppingsList();
             }
