@@ -39,8 +39,13 @@ public class HomeCtr extends HttpServlet {
 		WeightService service = new WeightService();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
+<<<<<<< HEAD
 		//convertVoltageToWeight(weight);
 		service.insertWeightInitial(convertVoltageToWeight(weight), dateFormat.format(cal.getTime()));
+=======
+		convertVoltageToWeight(weight);
+		//service.insertWeightInitial(convertVoltageToWeight(weight), dateFormat.format(cal.getTime()));
+>>>>>>> origin/master
 		}else{
 			logger.log(Level.INFO,"Invalid weight entered" + " "+ weight);
 		}
@@ -50,7 +55,11 @@ public class HomeCtr extends HttpServlet {
 	
 	public boolean checkforValidWeight(String weight){
 		double weight_integer= Double.valueOf(weight);
+<<<<<<< HEAD
 		if(weight_integer<0.75 || weight_integer > 3.5){
+=======
+		if(weight_integer==0.0 || weight_integer > 4.0){
+>>>>>>> origin/master
 			return false;
 		}else{
 			return true;
@@ -61,6 +70,7 @@ public class HomeCtr extends HttpServlet {
 	public String convertVoltageToWeight(String voltage){
 		
 		DecimalFormat decimalFormat = new DecimalFormat(".##");
+<<<<<<< HEAD
 		double result =0.0;	
 		result = (Math.exp(EasyPayConstants.A_VALUE))*(Math.exp(EasyPayConstants.B_VALUE*Double.valueOf(voltage)));
 		logger.log(Level.INFO,String.valueOf(result));
@@ -78,6 +88,17 @@ public class HomeCtr extends HttpServlet {
 			result = result -80;
 		}
 		
+=======
+		double volt = Double.valueOf(voltage);
+		
+		double result =0.0;
+		
+		result = volt-EasyPayConstants.Y_INTERCEPT;
+		logger.log(Level.INFO,String.valueOf(result));
+		
+		result = result/EasyPayConstants.X_COEFFICIENT;
+		logger.log(Level.INFO,String.valueOf(result));
+>>>>>>> origin/master
 		logger.log(Level.INFO,decimalFormat.format(result));
 		return decimalFormat.format(result);
 		

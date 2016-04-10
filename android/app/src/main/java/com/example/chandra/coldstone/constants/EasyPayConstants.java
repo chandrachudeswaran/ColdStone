@@ -6,10 +6,14 @@ package com.example.chandra.coldstone.constants;
 public class EasyPayConstants {
 
     public static final String BASE_TITLE="  EasyPay -";
+<<<<<<< HEAD
     public static final String baseurl = "http://10.38.12.182:8080/ColdStone/rest/user";
     public static final double PRICE_PER_GRAM=0.68;
     public static final String ICE_CREAM_IMAGE="https://www.coldstonecreamery.com/assets/img/\" +\n" +
             "                    \"products/signaturecreations/signaturecreations.jpg";
+=======
+    public static final String baseurl = "http://192.168.1.107:8080/ColdStone/rest/user";
+>>>>>>> origin/master
 
     //Intent Constants
     public static final String ANDROID_DEVICE_ID_KEY="android_id";
