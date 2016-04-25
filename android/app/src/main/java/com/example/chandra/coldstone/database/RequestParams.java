@@ -21,6 +21,15 @@ public class RequestParams {
     HashMap<String, String> params = new HashMap<String, String>();
 
 
+    @Override
+    public String toString() {
+        return "RequestParams{" +
+                "base_url='" + base_url + '\'' +
+                ", method='" + method + '\'' +
+                ", params=" + params +
+                '}';
+    }
+
     public void addParams(String key, String value) {
         params.put(key, value);
     }

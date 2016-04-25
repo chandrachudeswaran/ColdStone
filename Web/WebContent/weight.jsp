@@ -1,14 +1,15 @@
+<%@page import="constants.EasyPayConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>EasyPay - Billing</title>
+<title>EasyPay - Enter Weight</title>
 <style>
 
 #preason{
@@ -186,13 +187,13 @@ nav .right{
     border : 1px black solid;
 }
 #errorweight{
-color:green;
+color:red;
 text-align: center;
 font-size: 30px; 
 }
-
 </style>
 </head>
+
 <body>
 <div id="header">
             <nav id="header_menu">
@@ -202,51 +203,38 @@ font-size: 30px;
 
                 <ul class="right">
                        <li><a href="index.jsp">Home</a></li>
-                        <li><a href='${pageContext.request.contextPath}/price'>Billing</a></li>
-                        <li><a href="weight.jsp">Enter Weight</a></li>
-                      
-                      
+                        <li><a href='${pageContext.request.contextPath}/price'>Billing</a></li>                     
                     
                 </ul>
 
             </nav>
-            
-              
 
 
 
 </div>
-     <div id="reason">
-     <%String billstatus = (String)request.getAttribute("billstatus"); %>
-     </div>   
-<section id="how">
-    <h3>Project Description</h3>
 
-    <p>Develop a REST service using the weight calculated by the Flexi Sensor.</p>
-
-    <p>An Adrunio controller reads the weight value from the Flexi sensor and is
-    processed by a python script which in turn sends the value to a web server 
-    and to an Android device using REST API.</p>
-    
-     <c:if test="${billstatus!=null}">
-     <p id="preason">No purchase requests at this moment.<p>
-     </c:if>
-
-
-
-
-
-</section>
-
-  <c:if test="${weightstatus!=null}">
+<div class="col-md-6 col-md-offset-3">
+            <div class="card">
+            
+                <div class="card-image">
+                    <img class="img-responsive" src="https://www.coldstonecreamery.com/assets/img/products/signaturecreations/signaturecreations.jpg">
+                    <span class="card-title"></span>
+                </div>
+                
+                <div class="card-content">			  
+                <form name="user" action="weight" onsubmit="return checkUserId()">
+                    <p>Enter Weight: <input type="text" name="weight"/></p>
+            
+                  <c:if test="${weightstatus!=null}">
      <p id="errorweight"><c:out value="${weightstatus}"></c:out></p>
-     			</c:if>
-
-<section class="copyright">
-    &copy; Cold Stone Tech 
-  
-    
-   
-</section>
+     			</c:if>  
+                   <p> <input type="submit" value="Submit" /> </p>
+                   </form>
+                </div>
+                
+                <div class="card-action">
+               
+                </div>
+            </div>
 </body>
 </html>

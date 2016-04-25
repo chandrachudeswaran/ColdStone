@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import database.DataBaseConnection;
 import database.DataBaseSingleton;
-import database.DbConnection;
 
 public class ToppingsDao {
 
@@ -17,7 +17,7 @@ public class ToppingsDao {
 
 	public List<Toppings> getToppings() {
 		List<Toppings> list = new ArrayList<Toppings>();
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 

@@ -24,7 +24,7 @@
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             android:layout_centerInParent="true"
             android:visibility="invisible"
-            android:textColor="@color/md_deep_orange_A400"
+            android:textColor="@color/md_green_600"
 
             />
 

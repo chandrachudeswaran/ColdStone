@@ -104,6 +104,7 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
     public void submitBillForUser(String output) {
         billinfo = ParseUtility.parseBill(output);
         displayBill(billinfo);
+
     }
 
     @Override
@@ -115,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
             }else{
                 ActivityUtility.Helper.makeToast(HomeActivity.this,"Thank you!");
             }
+
             displayBill(null);
         }
     }
@@ -145,8 +147,8 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
         ArrayList<Bill> list = ParseUtility.getHistory(output);
         Intent intent = new Intent(HomeActivity.this,HistoryActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("History",list);
-        intent.putExtra("Bundle",bundle);
+        bundle.putSerializable("History", list);
+        intent.putExtra("Bundle", bundle);
         startActivity(intent);
     }
 
@@ -162,11 +164,12 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
                 displayToppingsList();
             }
         } else if (bill == null) {
-            transaction = false;
-            invalidateOptionsMenu();
-            cardView.setVisibility(View.INVISIBLE);
-            buttonsLayout.setVisibility(View.INVISIBLE);
-            noTrans.setVisibility(View.VISIBLE);
+                transaction = false;
+                invalidateOptionsMenu();
+                cardView.setVisibility(View.INVISIBLE);
+                buttonsLayout.setVisibility(View.INVISIBLE);
+                noTrans.setVisibility(View.VISIBLE);
+
         } else {
             transaction = true;
             displayToppingsList();

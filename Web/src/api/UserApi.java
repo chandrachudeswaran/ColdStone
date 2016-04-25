@@ -3,11 +3,13 @@ package api;
 
 import java.util.List;
 
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import dao.Toppings;
@@ -17,7 +19,6 @@ import service.UserService;
 
 @Path("/user")
 public class UserApi {
-	
 
 	@Path("/login")
 	@POST
@@ -40,7 +41,7 @@ public class UserApi {
 		UserService userService = new UserService();
 		if(userService.isUserExists(username)){
 			return 0;
-		}else{
+		}else{ 
 			return userService.doSingup(username, password,device);
 		}
 		

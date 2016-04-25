@@ -9,7 +9,8 @@ import com.example.chandra.coldstone.constants.EasyPayConstants;
 import com.example.chandra.coldstone.utility.ActivityUtility;
 
 
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,6 +114,8 @@ public class RestCall extends AsyncTask<RequestParams, Void, String> {
             case EasyPayConstants.FUNC_GET_BILL:
                 homeFunctionCall=(HomeFunctionCall)getContext();
                 homeFunctionCall.submitBillForUser(output);
+
+
                 break;
 
             case EasyPayConstants.FUNC_STATUS_UPDATE:

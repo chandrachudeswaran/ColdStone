@@ -78,7 +78,6 @@ public class ParseUtility {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ActivityUtility.Helper.writeDebugLog(list.toString());
         return list;
     }
 }

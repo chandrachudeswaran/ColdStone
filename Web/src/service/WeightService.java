@@ -1,6 +1,9 @@
 package service;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import constants.EasyPayConstants;
 import dao.Weight;
@@ -13,13 +16,15 @@ public class WeightService {
 	public WeightService() {
 		this.weightDao = new WeightDao();
 	}
-
+	
 	public WeightDao getWeightDao() {
 		return weightDao;
 	}
-
-	public void insertWeightInitial(String weight, String time) {
-		weightDao.insertWeight(weight, time, "N");
+	
+	public void insertWeightInitial(String weight) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		weightDao.insertWeight(weight,dateFormat.format(cal.getTime()),"N");
 	}
 
 	public Weight getLatestWeight() {

@@ -73,6 +73,18 @@ public class PriceCtr extends HttpServlet {
 		} else if (request.getServletPath().equals("/nobill")) {
 				request.setAttribute("billstatus", "none");
 				forwardRequest(request, response, "index.jsp");
+		} else if(request.getServletPath().equals("/weight")){
+			String weight = request.getParameter("weight");
+			logger.log(Level.INFO,"weight" + weight);
+			if("".equals(weight)){
+				request.setAttribute("weightstatus", "Enter Valid Weight");
+				forwardRequest(request, response, "weight.jsp");
+				logger.log(Level.INFO,"No weight Entered");
+			}else{
+				service.insertWeightInitial(weight);
+				request.setAttribute("weightstatus", "Placed Order");
+				forwardRequest(request, response, "index.jsp");	
+			}
 		}
 	}
 

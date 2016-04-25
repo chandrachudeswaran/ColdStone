@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,6 +14,9 @@ import com.example.chandra.coldstone.database.RequestParams;
 import com.example.chandra.coldstone.database.RestCall;
 import com.example.chandra.coldstone.utility.ActivityUtility;
 import android.support.v7.widget.Toolbar;
+
+import java.util.logging.Logger;
+
 public class SignupActivity extends AppCompatActivity implements RestCall.SignUpFunctionCall{
 
     EditText username;
@@ -51,7 +55,7 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
             requestParams.addParams(EasyPayConstants.PARAMETER_USERNAME, username.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_PASSWORD, password.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
-            new RestCall(getApplicationContext(),EasyPayConstants.FUNC_SIGNUP).execute(requestParams);
+            new RestCall(SignupActivity.this,EasyPayConstants.FUNC_SIGNUP).execute(requestParams);
         }
     }
 
@@ -75,9 +79,12 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
 
     @Override
     public void doActionOnSignUp(String output) {
+        Log.d("output",output);
         int status = Integer.valueOf(output);
         if(status!=0){
             showHome(username.getText().toString());
+        }else{
+            ActivityUtility.Helper.makeToast(SignupActivity.this,"Username already exist");
         }
     }
 
@@ -88,7 +95,5 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
         intent.putExtra(EasyPayConstants.ANDROID_DEVICE_ID_KEY,android_id);
         startActivity(intent);
         finish();
-
-
     }
 }

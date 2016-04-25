@@ -42,7 +42,7 @@ public class UserService {
 
 	public String checkSessionExists(String device) {
 		logger.log(Level.INFO, "Entered device id"+ device);
-		return userDao.checkSessionExists(device);
+		return userDao.checkSessionExists(device,"Y");
 	}
 
 	public boolean isUserExists(@FormParam("username") String username){ 

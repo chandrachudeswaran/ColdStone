@@ -6,8 +6,8 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import database.DataBaseConnection;
 import database.DataBaseSingleton;
-import database.DbConnection;
 
 public class WeightDao {
 	
@@ -15,7 +15,7 @@ public class WeightDao {
 	
 	public void insertWeight(String weight,String time,String status){
 		logger.log(Level.INFO,weight);
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		
 		try {
@@ -32,7 +32,7 @@ public class WeightDao {
 	
 	public Weight getLatestWeight(){
 		Weight weight = new Weight();
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		String status ="N";
@@ -59,7 +59,7 @@ public class WeightDao {
 
 	
 	public boolean isValidUser(String username){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		boolean check = true;
@@ -87,7 +87,7 @@ public class WeightDao {
 
 	
 	public void doProcessed(String username,String status,float price,int id){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		try {
 			ps = dbConnection.getConnection();

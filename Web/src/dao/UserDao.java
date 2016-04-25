@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import database.DataBaseConnection;
 import database.DataBaseSingleton;
-import database.DbConnection;
 
 public class UserDao {
 	Logger logger = Logger.getLogger("UserDao");
 
 	public boolean doLogin(String username, String password,String device,String session) {
 		boolean result = false;
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		try {
@@ -41,7 +41,7 @@ public class UserDao {
 	}
 	
 	public int doSingup(String username,String password,String device){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int status=0;
 		
@@ -56,13 +56,14 @@ public class UserDao {
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE,e.toString());
 		}
+		logger.log(Level.INFO, "created an account " + status);
 		return status;
 	}
 	
 	public Weight getBill(String username){
 		String status="P";
 		Weight weight = new Weight();
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		try {
@@ -92,7 +93,7 @@ public class UserDao {
 		String accepted="A";
 		String canceled ="C";
 		List<Weight> list = new ArrayList<Weight>();
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		try {
@@ -121,7 +122,7 @@ public class UserDao {
 	
 	public int updateUserStatus(String status,String username,String id,String toppings,float price){
 		int id_int = Integer.parseInt(id);
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {
@@ -135,9 +136,8 @@ public class UserDao {
 		return statusUpdate;
 	}
 	
-	public String checkSessionExists(String device){
-		String status ="Y";
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+	public String checkSessionExists(String device,String status){
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		ResultSet rs = null;
 		String session="";
@@ -164,7 +164,7 @@ public class UserDao {
 	
 	
 	public boolean isUserExists(String username){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		String sqlStatement="";
 		Statement ps = null;
 		ResultSet rs = null;
@@ -195,7 +195,7 @@ public class UserDao {
 	}
 	
 	public int toggleSession(String device,String session,String username){
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		String sqlStatement="";
 		
 		Statement ps = null;
@@ -224,7 +224,7 @@ public class UserDao {
 	
 	public int createSession(String userid,String device){
 		String session="Y";
-		DbConnection dbConnection = DataBaseSingleton.getInstance();
+		DataBaseConnection dbConnection = DataBaseSingleton.getInstance();
 		Statement ps = null;
 		int statusUpdate=0;
 		try {

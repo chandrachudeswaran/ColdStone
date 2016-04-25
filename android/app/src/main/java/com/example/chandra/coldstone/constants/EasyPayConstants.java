@@ -7,7 +7,7 @@ public class EasyPayConstants {
 
     public static final String BASE_TITLE="  EasyPay -";
 
-    public static final String baseurl = "http://192.168.0.17:8080/ColdStone/rest/user";
+    public static final String baseurl = "http://easypay-raghuveer.rhcloud.com/EasyPay/rest/user";
     public static final double PRICE_PER_GRAM=0.68;
     public static final String ICE_CREAM_IMAGE="https://www.coldstonecreamery.com/assets/img/products/signaturecreations/signaturecreations.jpg";
 
