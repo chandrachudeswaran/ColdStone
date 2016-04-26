@@ -1,23 +1,19 @@
 package com.example.chandra.coldstone;
 
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 
 import com.example.chandra.coldstone.constants.EasyPayConstants;
+import com.example.chandra.coldstone.database.CallRest;
 import com.example.chandra.coldstone.database.RequestParams;
-import com.example.chandra.coldstone.database.RestCall;
 import com.example.chandra.coldstone.utility.ActivityUtility;
 import android.support.v7.widget.Toolbar;
 
-import java.util.logging.Logger;
-
-public class SignupActivity extends AppCompatActivity implements RestCall.SignUpFunctionCall{
+public class SignupActivity extends AppCompatActivity implements CallRest.TransferToActivity{
 
     EditText username;
     EditText password;
@@ -55,7 +51,7 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
             requestParams.addParams(EasyPayConstants.PARAMETER_USERNAME, username.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_PASSWORD, password.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
-            new RestCall(SignupActivity.this,EasyPayConstants.FUNC_SIGNUP).execute(requestParams);
+            new CallRest(SignupActivity.this,EasyPayConstants.FUNC_SIGNUP).execute(requestParams);
         }
     }
 
@@ -77,9 +73,10 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
         finish();
     }
 
+
+
     @Override
-    public void doActionOnSignUp(String output) {
-        Log.d("output",output);
+    public void doAction(String output, String function) {
         int status = Integer.valueOf(output);
         if(status!=0){
             showHome(username.getText().toString());
@@ -87,7 +84,6 @@ public class SignupActivity extends AppCompatActivity implements RestCall.SignUp
             ActivityUtility.Helper.makeToast(SignupActivity.this,"Username already exist");
         }
     }
-
 
     public void showHome(String username){
         Intent intent = new Intent(SignupActivity.this,HomeActivity.class);

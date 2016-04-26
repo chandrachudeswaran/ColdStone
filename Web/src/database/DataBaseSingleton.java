@@ -2,24 +2,20 @@ package database;
 
 public class DataBaseSingleton {
 
-/*	private static DbConnection instance;
+	private static DataBaseConnection instance;
+	private static String connection;
 	
-	public static DbConnection getInstance(){
+	public static DataBaseConnection getInstance(){
 		
 		if(instance ==null){
-			instance = new DbConnection();
-		}
-		return instance;
-	}*/
-
-	private static LocalDbConnection instance;
-	
-	public static LocalDbConnection getInstance(){
-		
-		if(instance ==null){
-			instance = new LocalDbConnection();
+			instance = createInstance(connection);
 		}
 		return instance;
 	}
 
+	public static DataBaseConnection createInstance(String conn){
+		connection = conn;
+		return new DatabaseFactory().getDatBaseObject(connection);
+	}
+	
 }

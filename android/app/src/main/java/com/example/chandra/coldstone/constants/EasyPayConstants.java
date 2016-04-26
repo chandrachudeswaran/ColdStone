@@ -17,7 +17,7 @@ public class EasyPayConstants {
     public static final String INTENT_SELECTED_TOPPINGS="SelectedToppings";
     public static final String INTENT_PRICE="Price";
 
-    //RestCall Constants
+    //CallRest Constants
     public static final String METHOD_GET="GET";
     public static final String METHOD_POST="POST";
     public static final String PARAMETER_DEVICE="device";

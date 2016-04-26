@@ -7,16 +7,14 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.example.chandra.coldstone.constants.EasyPayConstants;
 import com.example.chandra.coldstone.database.CallRest;
 import com.example.chandra.coldstone.database.RequestParams;
-import com.example.chandra.coldstone.database.RestCall;
 
 
-public class MainActivity extends AppCompatActivity implements RestCall.MainFunctionCall {
+public class MainActivity extends AppCompatActivity implements CallRest.TransferToActivity {
 
     String function;
     String username;
@@ -56,23 +54,23 @@ public class MainActivity extends AppCompatActivity implements RestCall.MainFunc
         this.function = EasyPayConstants.FUNC_SESSION;
         params.setUrl(this.function);
         params.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
-        new RestCall(MainActivity.this,EasyPayConstants.FUNC_SESSION).execute(params);
+        new CallRest(MainActivity.this,EasyPayConstants.FUNC_SESSION).execute(params);
     }
 
-    @Override
-    public void doActionOnSession(String output) {
-        if (!output.equals("1")) {
-            session=true;
-            showHome(output);
-        }
-    }
 
     @Override
-    public void doActionOnLogin(String output) {
-        int status = Integer.valueOf(output);
-        if(status==0){
-            session=true;
-            showHome(edit_username.getText().toString());
+    public void doAction(String output, String function) {
+        if(function.equals(EasyPayConstants.FUNC_SESSION)){
+            if (!output.equals("1")) {
+                session=true;
+                showHome(output);
+            }
+        }else{
+            int status = Integer.valueOf(output);
+            if(status==0){
+                session=true;
+                showHome(edit_username.getText().toString());
+            }
         }
     }
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements RestCall.MainFunc
             requestParams.addParams(EasyPayConstants.PARAMETER_USERNAME, edit_username.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_PASSWORD, edit_password.getText().toString());
             requestParams.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
-            new RestCall(MainActivity.this,EasyPayConstants.FUNC_LOGIN).execute(requestParams);
+            new CallRest(MainActivity.this,EasyPayConstants.FUNC_LOGIN).execute(requestParams);
         }
     }
 

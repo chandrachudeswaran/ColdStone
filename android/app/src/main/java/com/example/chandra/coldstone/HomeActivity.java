@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.example.chandra.coldstone.constants.EasyPayConstants;
 import com.example.chandra.coldstone.database.CallRest;
 import com.example.chandra.coldstone.database.RequestParams;
-import com.example.chandra.coldstone.database.RestCall;
 import com.example.chandra.coldstone.dto.Bill;
 import com.example.chandra.coldstone.utility.ActivityUtility;
 import com.example.chandra.coldstone.utility.ParseUtility;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunctionCall{
+public class HomeActivity extends AppCompatActivity implements CallRest.TransferToActivity{
 
     Toolbar mToolbar;
     TextView weight, noTrans;
@@ -76,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
         RequestParams requestParams = new RequestParams(EasyPayConstants.baseurl, EasyPayConstants.METHOD_POST);
         requestParams.setUrl(EasyPayConstants.FUNC_GET_BILL);
         requestParams.addParams(EasyPayConstants.PARAMETER_USERNAME, username);
-        new RestCall(HomeActivity.this, EasyPayConstants.FUNC_GET_BILL).execute(requestParams);
+        new CallRest(HomeActivity.this, EasyPayConstants.FUNC_GET_BILL).execute(requestParams);
     }
 
 
@@ -96,39 +94,10 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
             status="C";
             requestParams.addParams("status", status);
         }
-        new RestCall(HomeActivity.this, EasyPayConstants.FUNC_STATUS_UPDATE).execute(requestParams);
+        new CallRest(HomeActivity.this, EasyPayConstants.FUNC_STATUS_UPDATE).execute(requestParams);
     }
 
 
-    @Override
-    public void submitBillForUser(String output) {
-        billinfo = ParseUtility.parseBill(output);
-        displayBill(billinfo);
-
-    }
-
-    @Override
-    public void statusUpdate(String output) {
-        int count = Integer.valueOf(output);
-        if (count != 0) {
-            if(status.equals("A")){
-                ActivityUtility.Helper.makeToast(HomeActivity.this,"Thanks. Enjoy the Ice-cream");
-            }else{
-                ActivityUtility.Helper.makeToast(HomeActivity.this,"Thank you!");
-            }
-
-            displayBill(null);
-        }
-    }
-
-    @Override
-    public void doLogout(String output) {
-        int status = Integer.valueOf(output);
-        if(status!=0){
-            session=false;
-            goBack(session);
-        }
-    }
 
     public void goBack(boolean condition){
         Intent intent = new Intent();
@@ -142,14 +111,38 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
         goBack(session);
     }
 
+
+
     @Override
-    public void doActionOnHistory(String output) {
-        ArrayList<Bill> list = ParseUtility.getHistory(output);
-        Intent intent = new Intent(HomeActivity.this,HistoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("History", list);
-        intent.putExtra("Bundle", bundle);
-        startActivity(intent);
+    public void doAction(String output, String function) {
+        if(function.equals(EasyPayConstants.FUNC_GET_BILL)){
+            billinfo = ParseUtility.parseBill(output);
+            displayBill(billinfo);
+        }else if(function.equals(EasyPayConstants.FUNC_STATUS_UPDATE)){
+            int count = Integer.valueOf(output);
+            if (count != 0) {
+                if(status.equals("A")){
+                    ActivityUtility.Helper.makeToast(HomeActivity.this,"Thanks. Enjoy the Ice-cream");
+                }else{
+                    ActivityUtility.Helper.makeToast(HomeActivity.this,"Thank you!");
+                }
+
+                displayBill(null);
+            }
+        }else if(function.equals(EasyPayConstants.FUNC_LOGOUT)){
+            int status = Integer.valueOf(output);
+            if(status!=0){
+                session=false;
+                goBack(session);
+            }
+        }else{
+            ArrayList<Bill> list = ParseUtility.getHistory(output);
+            Intent intent = new Intent(HomeActivity.this,HistoryActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("History", list);
+            intent.putExtra("Bundle", bundle);
+            startActivity(intent);
+        }
     }
 
     public void displayBill(Bill bill) {
@@ -243,7 +236,7 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
             RequestParams params = new RequestParams(EasyPayConstants.baseurl,EasyPayConstants.METHOD_POST);
             params.setUrl(EasyPayConstants.FUNC_HISTORY);
             params.addParams(EasyPayConstants.PARAMETER_USERNAME, this.username);
-            new RestCall(HomeActivity.this,EasyPayConstants.FUNC_HISTORY).execute(params);
+            new CallRest(HomeActivity.this,EasyPayConstants.FUNC_HISTORY).execute(params);
             return true;
         }
         if(id==R.id.logout){
@@ -251,7 +244,7 @@ public class HomeActivity extends AppCompatActivity implements RestCall.HomeFunc
             params.setUrl(EasyPayConstants.FUNC_LOGOUT);
             params.addParams(EasyPayConstants.PARAMETER_DEVICE, android_id);
             params.addParams(EasyPayConstants.PARAMETER_USERNAME, username);
-            new RestCall(HomeActivity.this,EasyPayConstants.FUNC_LOGOUT).execute(params);
+            new CallRest(HomeActivity.this,EasyPayConstants.FUNC_LOGOUT).execute(params);
             return true;
         }
 

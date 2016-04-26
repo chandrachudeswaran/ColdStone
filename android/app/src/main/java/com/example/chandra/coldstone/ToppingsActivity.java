@@ -9,8 +9,8 @@ import android.widget.GridView;
 
 import com.example.chandra.coldstone.adapters.GridAdapter;
 import com.example.chandra.coldstone.constants.EasyPayConstants;
+import com.example.chandra.coldstone.database.CallRest;
 import com.example.chandra.coldstone.database.RequestParams;
-import com.example.chandra.coldstone.database.RestCall;
 import com.example.chandra.coldstone.dto.Toppings;
 import com.example.chandra.coldstone.utility.ActivityUtility;
 import com.example.chandra.coldstone.utility.ParseUtility;
@@ -21,7 +21,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToppingsActivity extends AppCompatActivity implements RestCall.ToppingsFunctionCall {
+public class ToppingsActivity extends AppCompatActivity implements CallRest.TransferToActivity {
 
     Toolbar mToolbar;
     GridView gridView;
@@ -51,7 +51,7 @@ public class ToppingsActivity extends AppCompatActivity implements RestCall.Topp
     public void getToppingsList(){
         RequestParams params = new RequestParams(EasyPayConstants.baseurl,EasyPayConstants.METHOD_GET);
         params.setUrl(EasyPayConstants.FUNC_GET_TOPPINGS);
-        new RestCall(ToppingsActivity.this,EasyPayConstants.FUNC_GET_TOPPINGS).execute(params);
+        new CallRest(ToppingsActivity.this,EasyPayConstants.FUNC_GET_TOPPINGS).execute(params);
     }
 
 
@@ -63,7 +63,7 @@ public class ToppingsActivity extends AppCompatActivity implements RestCall.Topp
 
 
     @Override
-    public void doActionOnToppings(String output) {
+    public void doAction(String output, String function) {
         ActivityUtility.Helper.writeDebugLog(output);
         try {
             list = ParseUtility.getToppingsListFromRest(new JSONArray(output));
